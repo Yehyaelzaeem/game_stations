@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "684599862690",
+    "project_id": "gamestation-9c1b0",
+    "storage_bucket": "gamestation-9c1b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684599862690:android:852ad8522f655cf69c3efb",
+        "android_client_info": {
+          "package_name": "com.gamestationapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684599862690-cv0g89k885fspmbrspbttcnqvpjjq8j4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gamestationapp",
+            "certificate_hash": "dc7ce3f6de245c85161dd49825381ae645104a8a"
+          }
+        },
+        {
+          "client_id": "684599862690-id7jbvmlfs604s2o8kg9c586vum6focf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gamestationapp",
+            "certificate_hash": "709de21965f59f66855940816b03912ce34c62d3"
+          }
+        },
+        {
+          "client_id": "684599862690-5dpfpe7j1mge9jcend1f68rqjink37rl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLHQlV4h9yyw7f9tFMx2SZqMye4lzAqdw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684599862690-5dpfpe7j1mge9jcend1f68rqjink37rl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
