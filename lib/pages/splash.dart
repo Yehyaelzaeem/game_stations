@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 
+import '../core/shared_preference/shared_preference.dart';
 import '../helper/showtoast.dart';
 import '../models/Constant.dart';
 import '../repository/categories.dart';
@@ -24,6 +25,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    loadCountry();
     _loadWidget();
     _animationController = AnimationController(vsync: this, duration: Duration(seconds: 3));
     _animation = Tween<Offset>(
@@ -34,7 +36,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       // when animation completes, put your code here
     });
   }
-
+  loadCountry()async{
+    var res =await CacheHelper.getDate(key: 'country');
+    print('============= ${Constant.country }');
+    print('============= ${res }');
+  }
   final splashDelay = 5;
   _loadWidget() async {
     try {
@@ -47,13 +53,20 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     return Timer(_duration, navigationPage);
   }
 
-  void navigationPage() {
-     if(Constant.token!=null){
+   navigationPage() async{
+     var res =await CacheHelper.getDate(key: 'country');
+     Constant.country = res;
+     // var res =await CacheHelper.getDate(key: 'isLog');
+     if(res !=null){
     if (Platform.isIOS) FlutterAppBadger.removeBadge();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Constant.token == null ?
-    SliderPage() : RootPages()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) =>
+   RootPages()));
     // SliderPage() : RootPages()));
     }
+     else{
+       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) =>
+       SliderPage() ));
+     }
   }
 
   @override

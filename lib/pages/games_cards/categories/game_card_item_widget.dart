@@ -14,8 +14,8 @@ class GameCardItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
-
+    CartProvider cartProvider = Provider.of<CartProvider>(context,listen: false);
+    print('GameCardItemWidget======================');
     return GestureDetector(
       onTap: () {
         // Navigator.of(context).pushNamed(GameCardDetailsScreen.routeName, arguments: product);  

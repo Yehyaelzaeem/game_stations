@@ -37,6 +37,7 @@ class CartScreen extends StatelessWidget {
             ...cartProvider.products.map((e) {
               return CardItem(e);
             }).toList(),
+
             Container(
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
@@ -214,7 +215,8 @@ class _CompletePaymentButtonState extends State<CompletePaymentButton> {
                     SizedBox(height: 8),
                   ],
                 )
-              : Padding(
+              :
+          Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
                   child: Text(
                     translate("store.order_complete"),

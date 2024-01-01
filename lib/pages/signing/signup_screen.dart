@@ -68,6 +68,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: 10,
                 ),
+
                 UserInput.userinput(hint: translate("signup.phone"), textEditingController: __phoneController, textInputType: TextInputType.phone),
                 SizedBox(
                   height: 10,
@@ -98,23 +99,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: _size.height * 0.03,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(width: 5),
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutUsPage("${translate("drawer.drawer_policy")}", "Terms")));
-                      },
-                      child: Text(
-                        translate("signup.BySigningUpYouagreeOurPolicyAndTermsOfUse"),
-                        style: TextStyle(
-                          color: appColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutUsPage("${translate("drawer.drawer_policy")}", "Terms")));
+                  },
+                  child: Text(
+                    translate("signup.BySigningUpYouagreeOurPolicyAndTermsOfUse"),
+                    style: TextStyle(
+                      color: appColor,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                    textAlign: TextAlign.center,
+                  ),
                 ),
 
                 SizedBox(

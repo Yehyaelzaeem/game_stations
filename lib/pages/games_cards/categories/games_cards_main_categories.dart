@@ -21,7 +21,9 @@ class GamesCardMainCategoriesScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           SizedBox(height: 32),
+
           GameCardCategoriesAppBar(title: title),
+
           SizedBox(height: 16),
           Consumer<GameCardCategoryProvider>(
             builder: (context, value, child) {

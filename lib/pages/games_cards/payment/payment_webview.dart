@@ -7,8 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../elements/widget_store_header.dart';
+import '../../../helper/showtoast.dart';
+import '../../root_pages.dart';
 import '../cart/cart_provider.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
 class InAppWebViewExampleScreen extends StatefulWidget {
   final String? url;
   InAppWebViewExampleScreen({this.url});
@@ -120,40 +122,40 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       //   ),
       // ),
 ///////////////////////////////
-      // Expanded(
-      //   child: Container(
-      //     decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-      //     child: WebView(
-      //       javascriptMode: JavascriptMode.unrestricted,
-      //       initialUrl: "${widget.url}",
-      //       initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
-      //       onWebViewCreated: (WebViewController webViewController) {},
-      //       onPageFinished: (url) {},
-      //       gestureNavigationEnabled: true,
-      //       navigationDelegate: (NavigationRequest navigation) {
-      //         if (url.contains('success') || url.contains("order_success")) {
-      //           log("true");
-      //           cartProvider.removeAll();
-      //
-      //           showToast("Order submitted successfully");
-      //           Navigator.of(context).pushAndRemoveUntil(
-      //             MaterialPageRoute(builder: (context) => RootPages()),
-      //             (Route<dynamic> route) => false,
-      //           );
-      //         } else {
-      //           setState(() {
-      //             this.url = url;
-      //           });
-      //         }
-      //         return NavigationDecision.navigate;
-      //       },
-      //       onPageStarted: (url) {
-      //         this.url = url;
-      //         setState(() {});
-      //       },
-      //     ),
-      //   ),
-      // ),
+      Expanded(
+        child: Container(
+          decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+          child: WebView(
+            javascriptMode: JavascriptMode.unrestricted,
+            initialUrl: "${widget.url}",
+            initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
+            onWebViewCreated: (WebViewController webViewController) {},
+            onPageFinished: (url) {},
+            gestureNavigationEnabled: true,
+            navigationDelegate: (NavigationRequest navigation) {
+              if (url.contains('success') || url.contains("order_success")) {
+                log("true");
+                cartProvider.removeAll();
+
+                showToast("Order submitted successfully");
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => RootPages()),
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                setState(() {
+                  this.url = url;
+                });
+              }
+              return NavigationDecision.navigate;
+            },
+            onPageStarted: (url) {
+              this.url = url;
+              setState(() {});
+            },
+          ),
+        ),
+      ),
 /////////////////////////////
       // ButtonBar(
       //   alignment: MainAxisAlignment.center,

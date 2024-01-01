@@ -33,6 +33,8 @@ class _ProductsPageState extends State<ProductsPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
+    print('product title ****************************: ${widget.categoryTitle}');
+    print('catID title *******************************: ${widget.catID}');
     _dropDownMenuItemsCityKind = _getDropDownMenuItemsCityKind();
     _dropDownMenuItemsStatus = _getDropDownMenuItemsStatus();
     setState(() {
@@ -90,6 +92,7 @@ class _ProductsPageState extends State<ProductsPage> {
               ),
             ),
             SizedBox(height: 16),
+
             Container(
               width: width - 10,
               height: height * 0.06,
@@ -189,6 +192,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 ],
               ),
             ),
+
             Container(
               height: height * 0.8 - 30,
               width: width - 30,
@@ -226,6 +230,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                 },
                                               )
                                             : SizedBox(),
+
                                         SizedBox(height: 8),
                                         GestureDetector(
                                           onTap: () async {

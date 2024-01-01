@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:multi_image_picker_view/multi_image_picker_view.dart';
+import 'package:path_provider/path_provider.dart';
 // import 'package:multiple_images_picker/multiple_images_picker.dart';
 import '../../helper/showtoast.dart';
 import '../../models/Constant.dart';
 import '../../models/sliderModel.dart';
+import '../../multi_image/multi_image_picker_view.dart';
 import '../../provider/edit_product._provider.dart';
 import '../root_pages.dart';
 import '../../repository/categories.dart';
@@ -37,8 +41,8 @@ class EditAdsPage extends StatefulWidget {
 class _EditAdsPagePageState extends State<EditAdsPage> {
   ScrollController? scrollController;
   bool enableUpdate = false;
-  // List<Asset> newImages = [];
-  List newImages = [];
+  List<SliderModel> newImagesTest = [];
+  Iterable<ImageFile>? images = [];
 
   @override
   void initState() {
@@ -51,6 +55,18 @@ class _EditAdsPagePageState extends State<EditAdsPage> {
       });
     }
     super.initState();
+  }
+  // Iterable<ImageFile>? images = [];
+
+  final controller = MultiImagePickerController(
+      maxImages: 300,
+      picker: (allowMultiple) async {
+        return await pickImagesUsingImagePicker(allowMultiple);
+      });
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -127,7 +143,7 @@ class _EditAdsPagePageState extends State<EditAdsPage> {
           child: Column(
             children: [
               Container(
-                height: height * 0.1 + 43,
+                height: height * 0.15 + 43,
                 width: width,
                 padding: EdgeInsets.symmetric(
                     horizontal: width * 0.05, vertical: height * 0.02),
@@ -188,7 +204,7 @@ class _EditAdsPagePageState extends State<EditAdsPage> {
                 height: height * 0.02,
               ),
               Container(
-                height: height * 0.2 - 10,
+                height: height * 0.3,
                 width: width,
                 padding: EdgeInsets.symmetric(
                     horizontal: width * 0.05, vertical: height * 0.02),
@@ -196,136 +212,149 @@ class _EditAdsPagePageState extends State<EditAdsPage> {
                   borderRadius: BorderRadius.circular(20),
                   color: colorWhite,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Row(
-                    //   children: [
-                    //     Icon(Icons.circle,color: backGround,),
-                    //     SizedBox(width: width*0.02,),
-                    //     Text(translate("store.add_image"),style: GoogleFonts.cairo(fontWeight: FontWeight.bold,
-                    //         color: Colors.black54),),
-                    //   ],
-                    // ),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    /////////////
-                    // Container(
-                    //   height: height * 0.09,
-                    //   width: width,
-                    //   child: ListView.separated(
-                    //     itemCount: enableUpdate == true
-                    //         ? widget.images!.length + 1
-                    //         : widget.images!.length,
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemBuilder: (context, index) {
-                    //       if (index == widget.images!.length) {
-                    //         if (enableUpdate == true) {
-                    //           return InkWell(
-                    //             onTap: () async {
-                    //               // List<Asset> resultList = [];
-                    //               List resultList = [];
-                    //               try {
-                    //                 resultList =
-                    //                     await MultipleImagesPicker.pickImages(
-                    //                   maxImages: 300,
-                    //                   enableCamera: true,
-                    //                   materialOptions: MaterialOptions(
-                    //                     actionBarTitle: "FlutterCorner.com",
-                    //                   ),
-                    //                 );
-                    //               } on Exception catch (e) {
-                    //                 print("Error: " + e.toString());
-                    //               }
-                    //
-                    //               for (Asset asset in resultList) {
-                    //                 // print(
-                    //                 //     "ESSAMPATH===============================================>${asset.identifier} ${asset.name}");
-                    //                 //
-                    //                 // var path = await FlutterAbsolutePath
-                    //                 //     .getAbsolutePath(asset.identifier);
-                    //                 // print(path.toString());
-                    //                 // // final byteData = await rootBundle.load('$path');
-                    //                 // var file = getImageFileFromAsset(path);
-                    //                 // print(file.toString());
-                    //                 // // final file = File('${(await getTemporaryDirectory()).path}/$path');
-                    //                 // // await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-                    //                 // SliderModel slide =
-                    //                 //     SliderModel.addNewImage(file.path);
-                    //                 // widget.images!.add(slide);
-                    //               }
-                    //
-                    //               setState(() {
-                    //                 newImages = resultList;
-                    //               });
-                    //             },
-                    //             child: Image.asset(
-                    //               "assets/images/photo.png",
-                    //               width: width * 0.2,
-                    //               height: height * 0.09,
-                    //               fit: BoxFit.fill,
-                    //             ),
-                    //           );
-                    //         }
-                    //       }
-                    //
-                    //       return enableUpdate == true
-                    //           ? Align(
-                    //               alignment: Alignment.center,
-                    //               child: GestureDetector(
-                    //                   onTap: () async {
-                    //                     await selectImage().then((value) {
-                    //                       setState(() {
-                    //                         widget.images![index].image =
-                    //                             value.path;
-                    //                         widget.images![index].isEdit = true;
-                    //                         debugPrint(
-                    //                             "ESSAMPath=====>${value.path}");
-                    //
-                    //                         //imageFileUpload.add(value.absolute);
-                    //                       });
-                    //                     });
-                    //                   },
-                    //                   child: !widget.images![index].isEdit! &&
-                    //                           !widget.images![index].isNew!
-                    //                       ? Image.network(
-                    //                           widget.images![index].image
-                    //                               .toString(),
-                    //                           width: width * 0.2,
-                    //                           height: height * 0.09,
-                    //                           fit: BoxFit.fill,
-                    //                         )
-                    //                       : Image.file(
-                    //                           File(widget.images![index].image!),
-                    //                           width: width * 0.2,
-                    //                           height: height * 0.09,
-                    //                           fit: BoxFit.fill,
-                    //                         )),
-                    //             )
-                    //           : Image.network(
-                    //               widget.images![index].image.toString(),
-                    //               width: width * 0.2,
-                    //               height: height * 0.09,
-                    //               fit: BoxFit.fill,
-                    //             );
-                    //     },
-                    //     separatorBuilder: (BuildContext context, int index) {
-                    //       return SizedBox(
-                    //         width: width * 0.04,
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
-                  ///////////////////
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Row(
+                      //   children: [
+                      //     Icon(Icons.circle,color: backGround,),
+                      //     SizedBox(width: width*0.02,),
+                      //     Text(translate("store.add_image"),style: GoogleFonts.cairo(fontWeight: FontWeight.bold,
+                      //         color: Colors.black54),),
+                      //   ],
+                      // ),
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child:
+                        Container(
+                          height: 360,
+                          child: MultiImagePickerView(
+                            controller: controller,
+                            padding: const EdgeInsets.all(10),
+                          ),
+                        ),
+                      ),
+                      /////////////
+                      // Container(
+                      //   height: height * 0.09,
+                      //   width: width,
+                      //   child: ListView.separated(
+                      //     itemCount: enableUpdate == true
+                      //         ? widget.images!.length + 1
+                      //         : widget.images!.length,
+                      //     scrollDirection: Axis.horizontal,
+                      //     itemBuilder: (context, index) {
+                      //       // if (index == widget.images!.length) {
+                      //       //   if (enableUpdate == true) {
+                      //       //     return InkWell(
+                      //       //       onTap: () async {
+                      //       //         // List<Asset> resultList = [];
+                      //       //         List resultList = [];
+                      //       //         try {
+                      //       //           resultList =
+                      //       //               await MultipleImagesPicker.pickImages(
+                      //       //             maxImages: 300,
+                      //       //             enableCamera: true,
+                      //       //             materialOptions: MaterialOptions(
+                      //       //               actionBarTitle: "FlutterCorner.com",
+                      //       //             ),
+                      //       //           );
+                      //       //         } on Exception catch (e) {
+                      //       //           print("Error: " + e.toString());
+                      //       //         }
+                      //       //
+                      //       //         for (Asset asset in resultList) {
+                      //       //           // print(
+                      //       //           //     "ESSAMPATH===============================================>${asset.identifier} ${asset.name}");
+                      //       //           //
+                      //       //           // var path = await FlutterAbsolutePath
+                      //       //           //     .getAbsolutePath(asset.identifier);
+                      //       //           // print(path.toString());
+                      //       //           // // final byteData = await rootBundle.load('$path');
+                      //       //           // var file = getImageFileFromAsset(path);
+                      //       //           // print(file.toString());
+                      //       //           // // final file = File('${(await getTemporaryDirectory()).path}/$path');
+                      //       //           // // await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+                      //       //           // SliderModel slide =
+                      //       //           //     SliderModel.addNewImage(file.path);
+                      //       //           // widget.images!.add(slide);
+                      //       //         }
+                      //       //
+                      //       //         setState(() {
+                      //       //           newImages = resultList;
+                      //       //         });
+                      //       //       },
+                      //       //       child: Image.asset(
+                      //       //         "assets/images/photo.png",
+                      //       //         width: width * 0.2,
+                      //       //         height: height * 0.09,
+                      //       //         fit: BoxFit.fill,
+                      //       //       ),
+                      //       //     );
+                      //       //   }
+                      //       // }
+                      //
+                      //       return enableUpdate == true
+                      //           ? Align(
+                      //               alignment: Alignment.center,
+                      //               child: GestureDetector(
+                      //                   onTap: () async {
+                      //                     await selectImage().then((value) {
+                      //                       setState(() {
+                      //                         widget.images![index].image =
+                      //                             value.path;
+                      //                         widget.images![index].isEdit = true;
+                      //                         debugPrint(
+                      //                             "ESSAMPath=====>${value.path}");
+                      //
+                      //                         //imageFileUpload.add(value.absolute);
+                      //                       });
+                      //                     });
+                      //                   },
+                      //                   child: !widget.images![index].isEdit! &&
+                      //                           !widget.images![index].isNew!
+                      //                       ? Image.network(
+                      //                           widget.images![index].image
+                      //                               .toString(),
+                      //                           width: width * 0.2,
+                      //                           height: height * 0.09,
+                      //                           fit: BoxFit.fill,
+                      //                         )
+                      //                       : Image.file(
+                      //                           File(widget.images![index].image!),
+                      //                           width: width * 0.2,
+                      //                           height: height * 0.09,
+                      //                           fit: BoxFit.fill,
+                      //                         )),
+                      //             )
+                      //           : Image.network(
+                      //               widget.images![index].image.toString(),
+                      //               width: width * 0.2,
+                      //               height: height * 0.09,
+                      //               fit: BoxFit.fill,
+                      //             );
+                      //     },
+                      //     separatorBuilder: (BuildContext context, int index) {
+                      //       return SizedBox(
+                      //         width: width * 0.04,
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
+                    ///////////////////
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
                 height: height * 0.02,
               ),
               Container(
-                height: height * 0.1 + 43,
+                height: height * 0.15 + 43,
                 width: width,
                 padding: EdgeInsets.symmetric(
                     horizontal: width * 0.05, vertical: height * 0.02),
@@ -614,6 +643,24 @@ class _EditAdsPagePageState extends State<EditAdsPage> {
                     alignment: Alignment.center,
                     child: GestureDetector(
                       onTap: () async {
+                          setState(() {
+                            images = controller.images;
+                          });
+                        for (var asset in images!) {
+                                          var path =asset.path;
+                                          final file = File('$path');
+
+                                          // var path = await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
+                                         //  print(path.toString());
+                                         // final byteData = await rootBundle.load('$path');
+                                         //  var file = getImageFileFromAsset(path!);
+                                         //  print(file.toString());
+                                         //   final file2 = File('${(await getTemporaryDirectory()).path}/$path');
+                                         //  await file2.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+                                          SliderModel slide = SliderModel.addNewImage(file.path);
+                                          widget.images!.add(slide);
+                                        }
+
                         // if (descriptionTextController.text.toString().trim().isNotEmpty||
                         //     priceTextController.text.toString().trim().isNotEmpty||
                         //     titleTextController.text.toString().trim().isNotEmpty) {
@@ -638,6 +685,12 @@ class _EditAdsPagePageState extends State<EditAdsPage> {
                         List<SliderModel> newImages = widget.images!
                             .where((element) => element.isNew!)
                             .toList();
+                        // List<SliderModel> editImagesList = newImagesTest
+                        //     .where((element) => element.isEdit!)
+                        //     .toList();
+                        // List<SliderModel> newImages = newImagesTest
+                        //     .where((element) => element.isNew!)
+                        //     .toList();
                         await categoryProvider
                             .getProductDetails(widget.id.toString())
                             .then((value) async {});
@@ -657,12 +710,12 @@ class _EditAdsPagePageState extends State<EditAdsPage> {
                           for (int i = 0; i < newImages.length; i++) {}
                         }
                         if (editImagesList != null) {
-                          for (int i = 0; i < editImagesList.length; i++) {
+                          for (int i = 0; i < newImagesTest.length; i++) {
                             await categoryProvider
                                 .updateImage(
-                                    image: File(editImagesList[i].image!),
+                                    image: File(newImagesTest[i].image!),
                                     context: context,
-                                    imageID: editImagesList[i].id!)
+                                    imageID: newImagesTest[i].id!)
                                 .then((value) {
                               if (value == "true") {
                                 showToast(translate("toast.update_admin"));

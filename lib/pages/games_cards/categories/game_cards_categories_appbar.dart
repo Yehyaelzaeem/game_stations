@@ -37,14 +37,13 @@ class _GameCardCategoriesAppBarState extends State<GameCardCategoriesAppBar> {
                   context,
                   "${widget.title}",
                   showCart: true,
-              
                   onSearchTap: () {
                     gameCardCategoryProvider.onSeachModeChange(!gameCardCategoryProvider.inSearchMode);
                   },
                   showSearch: true,
                 ),
-              //fade in animation for search bar
 
+              //fade in animation for search bar
               if (gameCardCategoryProvider.inSearchMode)
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 12),

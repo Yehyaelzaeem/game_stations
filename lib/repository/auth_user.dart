@@ -36,16 +36,19 @@ class UserAuth extends ChangeNotifier {
   String? countryImage;
   String? countryNameAfterSign;
   Future registerUser({String? firstName, String? lastName, String? email, String? mobile, String? password, BuildContext? context}) async {
+   print('start  registerUser ==========================');
     final String myUrl = "${GlobalConfiguration().getString('api_base_url')}register";
     // ConstantWidget.loadingData(context: context);
     showToast("◌");
     String? device = "";
-    if (!kDebugMode)
+    if (kDebugMode)
       await FirebaseMessaging.instance.getToken().then((value) {
         device = value;
         print("token  >>> $device");
       });
-    var data = {'first_name': '$firstName', 'last_name': '$lastName', 'phone': '$mobile', 'email': '$email', "country": Constant.country ?? "1", "city": Constant.country ?? "1", 'password': '$password', 'password_confirmation': '$password', "token": device};
+   print('token  >>> $device ==========================');
+
+   var data = {'first_name': '$firstName', 'last_name': '$lastName', 'phone': '$mobile', 'email': '$email', "country": Constant.country ?? "1", "city": Constant.country ?? "1", 'password': '$password', 'password_confirmation': '$password', "token": device};
     final response = await http.post(Uri.parse(myUrl),
         headers: {
           "Accept": "application/json",
@@ -81,21 +84,21 @@ class UserAuth extends ChangeNotifier {
     }
   }
 
-  loginUser({String? phone, String? password, BuildContext? context}) async {
+  loginUser({String? phone, String? password,required BuildContext context}) async {
     print("-----> loginUser ");
     final String myUrl = "${GlobalConfiguration().getString('api_base_url')}login";
     // ConstantWidget.loadingData(context: context);
     print("-----> myUrl $myUrl ");
     showToast("◌");
     String device = "";
-    if (!kDebugMode)
+    if (kDebugMode)
       await FirebaseMessaging.instance.getToken().then((String? value) {
         device = value!;
         print("token  >>> $device");
       });
-    print("-----> 2222");
-    var data = {'phone': '$phone', 'password': '$password', "token": kDebugMode ? '123' : device};
-    print("-----> 3333");
+    print("-----> 2222  $device");
+    var data = {'phone': '$phone', 'password': '$password', "token": kDebugMode ?  device:'123'};
+    print("-----> 3333 ${data}");
     final response = await http.post(Uri.parse(myUrl),
         headers: {
           "Accept": "application/json",
@@ -104,7 +107,7 @@ class UserAuth extends ChangeNotifier {
           "Content-Country": Constant.country ?? "1",
         },
         body: data);
-    print("-----> log in: " + response.body.toString());
+    print("-----> log test in: " + response.body.toString());
     final decodeData = jsonDecode(response.body);
     if (decodeData['success'].toString().trim() == "true") {
       await DBProvider.db.deleteAll();
@@ -114,10 +117,10 @@ class UserAuth extends ChangeNotifier {
       await checkUser();
       await checkUser();
       await userProfile();
-      if (!kDebugMode)
+      if (kDebugMode)
         FirebaseMessaging.instance.getToken().then((token) {
           debugPrint("ESSAMTOOOKEN" + token!);
-          Provider.of<UpdateFMCTokenProvider>(context!, listen: false).updateToken(token);
+          Provider.of<UpdateFMCTokenProvider>(context, listen: false).updateToken(token);
         });
       Navigator.pushReplacement(context!, MaterialPageRoute(builder: (BuildContext context) => MyApp()));
     } else if (decodeData['message'].toString().contains("Wrong") || decodeData['message'].toString().contains("your account not valid")) {
@@ -163,23 +166,18 @@ class UserAuth extends ChangeNotifier {
   Future signInWithGoogle(String kindRegister, BuildContext context) async {
     try {
       print('start***********************************************');
-      // final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
+       // final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      //
       final GoogleSignInAccount? googleUser = await GoogleSignIn(clientId: '684599862690-5dpfpe7j1mge9jcend1f68rqjink37rl.apps.googleusercontent.com', scopes: <String>['email']).signIn();
-      print("get google user******************************* ${googleUser!.email}");
-      await loginUserSocial(password: "gmail", email: googleUser.email.toString(), context: context);
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      // print("get google user ${googleUser!.email}");
+      // await loginUserSocial(password: "gmail", email: googleUser.email.toString(), context: context);
 
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      print('nice***********************************************');
 
     } catch (e) {
       print("gmailError: " + e.toString());
-      showToast(translate("toast.oops"));
+      showToast(e.toString());
+      // showToast(translate("toast.oops"));
     }
     // return await FirebaseAuth.instance.signInWithCredential(credential);
   }

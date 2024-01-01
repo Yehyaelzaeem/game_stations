@@ -45,8 +45,12 @@ class CategoriesProvider extends ChangeNotifier {
 
     String te = "";
 
-    if (itemsLength! > 0) {
-      categoryList.insert(0, gamesCardsCategory);
+    try{
+      if (itemsLength! > 0) {
+        categoryList.insert(0, gamesCardsCategory);
+      }
+    }catch(e){
+      print(e.toString());
     }
 
     print("categoriesCountry${Constant.country}: " + responseJSON.toString());
@@ -66,7 +70,7 @@ class CategoriesProvider extends ChangeNotifier {
       }
       if (notCheck == "not") {
         print('------> notCheck == "not"');
-        int length = itemsLength > 0 ? itemsLength : responseJSON['data'].length;
+        int length = itemsLength! > 0 ? itemsLength : responseJSON['data'].length;
         print('------> length $length');
         for (var i = startFromIndex; i < length; i++) {
           print('------> for $i');

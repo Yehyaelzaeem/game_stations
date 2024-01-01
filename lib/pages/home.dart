@@ -159,7 +159,6 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 4),
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -179,7 +178,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                       style: new TextStyle(color: appColor, fontSize: width * 0.03 + 1),
                                       value: _statusSelCityKind,
                                       items: _dropDownMenuItemsCityKind,
-                                      hint: Text(translate("store.city"), style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: width * 0.03 + 1)),
+                                      hint: FittedBox(child: Text(translate("store.city"), style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: width * 0.03 + 1))),
                                       onChanged: (String? selectedItem) {
                                         setState(() {
                                           categoryProvider.cityIDSearch = selectedItem!;
@@ -200,6 +199,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                   ),
                                 ),
                               ),
+
                               SizedBox(width: 2),
                               GestureDetector(
                                 onTap: () {
@@ -268,6 +268,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                   }
                 },
               ),
+
               Container(
                 height: height * 0.2 + 30,
                 width: width,

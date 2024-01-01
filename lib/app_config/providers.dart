@@ -13,6 +13,7 @@ import '../repository/chat/chat.dart';
 import '../repository/fav_cart.dart';
 import '../repository/messageCountProvider.dart';
 import '../repository/order.dart';
+import '../repository/update_fmc_token_provider.dart';
 
 class ProvidersList {
   static List<SingleChildWidget> getProviders = [
@@ -27,6 +28,7 @@ class ProvidersList {
     ChangeNotifierProvider.value(value: EditProductProvider()),
     ChangeNotifierProvider.value(value: GameCardCategoryProvider()),
     ChangeNotifierProvider.value(value: GameCardProvider()),
-    ChangeNotifierProvider.value(value: CartProvider())
+    ChangeNotifierProvider.value(value: CartProvider()),
+    ChangeNotifierProvider.value(value: UpdateFMCTokenProvider())
   ];
 }

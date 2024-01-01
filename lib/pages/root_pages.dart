@@ -165,24 +165,25 @@ class _RootPagesState extends State<RootPages> {
                     children: [
                       GestureDetector(
                         onTap: () {
+
+                          print('meee==========${unread.unRead}');
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatListPage()));
                         },
                         child: Stack(
                           alignment: Alignment.centerRight,
                           children: [
-                            // Align(
-                            //   alignment: Alignment.lerp(Alignment.topRight,
-                            //       Alignment.center,0.7),
-                            //   child: Container(
-                            //     height: 12,
-                            //     width: 12,
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(100),
-                            //       color: colorStar,
-                            //     ),
-                            //
-                            //   ),
-                            // ),
+                            Align(
+                              alignment: Alignment.lerp(Alignment.topRight,
+                                  Alignment.center,0.7)!,
+                              child: Container(
+                                height: 12,
+                                width: 12,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: colorStar,
+                                ),
+                              ),
+                            ),
                             Image(
                               height: height * 0.03,
                               width: width * 0.05,
@@ -192,14 +193,18 @@ class _RootPagesState extends State<RootPages> {
                           ],
                         ),
                       ),
-                      CircleAvatar(
-                        radius: 6,
-                        backgroundColor: Colors.black,
-                        child: Center(
-                            child: Text(
-                          "${unread.unRead}",
-                          style: TextStyle(fontSize: 7, fontWeight: FontWeight.bold),
-                        )),
+                      Align(
+                        alignment: Alignment.lerp(Alignment.topRight,
+                            Alignment.center,0.7)!,
+                        child: CircleAvatar(
+                          radius: 6,
+                          backgroundColor: Colors.black,
+                          child: Center(
+                              child: Text(
+                            "${unread.unRead}",
+                            style: TextStyle(fontSize: 7, fontWeight: FontWeight.bold,color: Colors.white),
+                          )),
+                        ),
                       )
                     ],
                   );

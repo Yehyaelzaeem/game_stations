@@ -66,15 +66,15 @@ class FirebaseNotifications {
         onSelectNotification: onSelectNotification);
   }
 
-  // Future<void> checkLastMessage() async {
-  //   RemoteMessage initialMessage =
-  //       await FirebaseMessaging.instance.getInitialMessage();
+  Future<void> checkLastMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
 
-  //   if (initialMessage != null) {
-  //     print(initialMessage.data.toString());
-  //     handlePath(initialMessage.data);
-  //   }
-  // }
+    if (initialMessage != null) {
+      print(initialMessage.data.toString());
+      handlePath(initialMessage.data);
+    }
+  }
 
   Future<void> firebaseCloudMessagingListeners() async {
     if (Platform.isIOS) iOSPermission();

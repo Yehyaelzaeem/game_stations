@@ -1,5 +1,6 @@
 {
   "base_url": "https://gamestationapp.com/api/",
-  "api_base_url": "https://gamestationapp.com/api/"
+  "api_base_url": "https://gamestationapp.com/api/",
+  "api_base_url_dev": "https://dev.gamestationapp.com/api/"
 }
 

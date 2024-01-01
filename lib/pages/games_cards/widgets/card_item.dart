@@ -75,8 +75,20 @@ class _CardItemState extends State<CardItem> {
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+                    SizedBox(width: MediaQuery.of(context).size.width*0.3),
+                    Text(
+                      '1',
+                      style: GoogleFonts.cairo(
+                        fontSize: 19.0,
+                        color: const Color(0xFF000081),
+                        letterSpacing: 0.005320000022649765,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                   /*
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -156,7 +168,8 @@ class _CardItemState extends State<CardItem> {
                           ),
                         )
                       ],
-                    ),
+                    ),*/
+                    Spacer(),
                     GestureDetector(
                       onTap: () {
                         cartProvider.removeProduct(widget.product);
@@ -174,6 +187,8 @@ class _CardItemState extends State<CardItem> {
                         ),
                       ),
                     ),
+                    SizedBox(width: MediaQuery.of(context).size.width*0.05),
+
                   ],
                 )
               ],

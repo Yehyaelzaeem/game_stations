@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:multi_image_picker_view/multi_image_picker_view.dart';
+import 'package:path_provider/path_provider.dart';
 // import 'package:multiple_images_picker/multiple_images_picker.dart';
 import '../../elements/PermissionDeniedWidget.dart';
 import '../../elements/widget_store_header.dart';
@@ -11,6 +14,7 @@ import '../../helper/getlocation.dart';
 import '../../helper/labeled_bottom_sheet.dart';
 import '../../helper/showtoast.dart';
 import '../../models/Constant.dart';
+import '../../multi_image/multi_image_picker_view.dart';
 import '../show_on_map.dart';
 import '../../repository/categories.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,6 +37,16 @@ class _AddGamesClubPageState extends State<AddGamesClubPage> {
     _dropDownMenuItemsCityKind = _getDropDownMenuItemsCityKind();
     _dropDownMenuItemsState = _getDropDownMenuItemsState();
     super.initState();
+  }
+  final controller = MultiImagePickerController(
+      maxImages: 300,
+      picker: (allowMultiple) async {
+        return await pickImagesUsingImagePicker(allowMultiple);
+      });
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -122,80 +136,94 @@ class _AddGamesClubPageState extends State<AddGamesClubPage> {
                                     height: height * 0.02,
                                   ),
                                   Container(
-                                    height: height * 0.2 - 10,
+                                    height: height * 0.3,
                                     width: width,
                                     padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.02),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
                                       color: colorWhite,
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.circle,
-                                              color: backGround,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.circle,
+                                                color: backGround,
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.02,
+                                              ),
+                                              Text(
+                                                translate("store.add_image"),
+                                                style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.black54),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.01,
+                                          ),
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child:
+                                            Container(
+                                              height: 360,
+                                              child: MultiImagePickerView(
+                                                controller: controller,
+                                                padding: const EdgeInsets.all(10),
+                                              ),
                                             ),
-                                            SizedBox(
-                                              width: width * 0.02,
-                                            ),
-                                            Text(
-                                              translate("store.add_image"),
-                                              style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.black54),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: height * 0.01,
-                                        ),
-                                        // Align(
-                                        //     alignment: Alignment.center,
-                                        //     child: GestureDetector(
-                                        //         onTap: () async {
-                                        //           List<Asset> resultList = [];
-                                        //           try {
-                                        //             resultList = await MultipleImagesPicker.pickImages(
-                                        //               maxImages: 300,
-                                        //               enableCamera: true,
-                                        //               selectedAssets: images,
-                                        //               materialOptions: MaterialOptions(
-                                        //                 actionBarTitle: "FlutterCorner.com",
-                                        //               ),
-                                        //             );
-                                        //           } on Exception catch (e) {
-                                        //             print("Error: " + e.toString());
-                                        //           }
-                                        //           setState(() {
-                                        //             images = resultList;
-                                        //           });
-                                        //         },
-                                        //         child: images.length == 0
-                                        //             ? Image.asset(
-                                        //                 "assets/images/photo.png",
-                                        //                 width: width * 0.2,
-                                        //                 height: height * 0.09,
-                                        //                 fit: BoxFit.fill,
-                                        //               )
-                                        //             : Container(
-                                        //                 height: height * 0.1,
-                                        //                 width: width * 0.4,
-                                        //                 child: GridView.count(
-                                        //                   crossAxisCount: 3,
-                                        //                   children: List.generate(images.length, (index) {
-                                        //                     Asset asset = images[index];
-                                        //                     return AssetThumb(
-                                        //                       asset: asset,
-                                        //                       width: 40,
-                                        //                       height: 30,
-                                        //                     );
-                                        //                   }),
-                                        //                 ))
-                                        //         // Image.file(imageFileUploadOne,width: width*0.2,
-                                        //         //   height: height*0.09,fit: BoxFit.fill,),
-                                        //         )),
-                                      ],
+                                          ),
+                                          // Align(
+                                          //     alignment: Alignment.center,
+                                          //     child: GestureDetector(
+                                          //         onTap: () async {
+                                          //           // List<Asset> resultList = [];
+                                          //           // try {
+                                          //           //   resultList = await MultipleImagesPicker.pickImages(
+                                          //           //     maxImages: 300,
+                                          //           //     enableCamera: true,
+                                          //           //     selectedAssets: images,
+                                          //           //     materialOptions: MaterialOptions(
+                                          //           //       actionBarTitle: "FlutterCorner.com",
+                                          //           //     ),
+                                          //           //   );
+                                          //           // } on Exception catch (e) {
+                                          //           //   print("Error: " + e.toString());
+                                          //           // }
+                                          //           // setState(() {
+                                          //           //   images = resultList;
+                                          //           // });
+                                          //         },
+                                          //         child: images.length == 0
+                                          //             ? Image.asset(
+                                          //                 "assets/images/photo.png",
+                                          //                 width: width * 0.2,
+                                          //                 height: height * 0.09,
+                                          //                 fit: BoxFit.fill,
+                                          //               )
+                                          //             : Container(
+                                          //                 height: height * 0.1,
+                                          //                 width: width * 0.4,
+                                          //                 // child: GridView.count(
+                                          //                 //   crossAxisCount: 3,
+                                          //                 //   children: List.generate(images.length, (index) {
+                                          //                 //     Asset asset = images[index];
+                                          //                 //     return AssetThumb(
+                                          //                 //       asset: asset,
+                                          //                 //       width: 40,
+                                          //                 //       height: 30,
+                                          //                 //     );
+                                          //                 //   }),
+                                          //                 // ),
+                                          //         )
+                                          //         // Image.file(imageFileUploadOne,width: width*0.2,
+                                          //         //   height: height*0.09,fit: BoxFit.fill,),
+                                          //         )),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -461,73 +489,77 @@ class _AddGamesClubPageState extends State<AddGamesClubPage> {
                                     height: height * 0.02,
                                   ),
                                   categoryProvider.lat != null
-                                      ? GestureDetector(
-                                          onTap: () async {
-                                            String latitude = "30.1309082", longitude = "30.8959127";
-                                            await getLocation( context).then((value) {
-                                              value.getLocation().then((value) {
-                                                if (value != null) {
-                                                  latitude = value.latitude.toString();
-                                                  longitude = value.longitude.toString();
-                                                }
+                                      ? Center(
+                                        child: GestureDetector(
+                                            onTap: () async {
+                                              String latitude = "30.1309082", longitude = "30.8959127";
+                                              await getLocation( context).then((value) {
+                                                value.getLocation().then((value) {
+                                                  if (value != null) {
+                                                    latitude = value.latitude.toString();
+                                                    longitude = value.longitude.toString();
+                                                  }
+                                                });
                                               });
-                                            });
-                                            Navigator.of(context).push(MaterialPageRoute(
-                                                builder: (context) => ShowOnMapPage(
-                                                      latitude: latitude,
-                                                      longitude: longitude,
-                                                    )));
-                                          },
-                                          child: Container(
-                                              width: width * 0.7,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(100),
-                                              ),
-                                              padding: EdgeInsets.only(right: 16, left: 16, top: 5, bottom: 5),
-                                              margin: EdgeInsets.only(right: width * 0.03, left: width * 0.03, top: 5),
-                                              child: Text(
-                                                translate("signup.map_done"),
-                                              )),
-                                        )
-                                      : GestureDetector(
-                                          onTap: () async {
-                                            String latitude = "30.1309082", longitude = "30.8959127";
-                                            await getLocation(context).then((value) {
-                                              value.getLocation().then((value) {
-                                                if (value != null) {
-                                                  latitude = value.latitude.toString();
-                                                  longitude = value.longitude.toString();
-                                                }
+                                              Navigator.of(context).push(MaterialPageRoute(
+                                                  builder: (context) => ShowOnMapPage(
+                                                        latitude: latitude,
+                                                        longitude: longitude,
+                                                      )));
+                                            },
+                                            child: Container(
+                                                width: width * 0.7,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(100),
+                                                ),
+                                                padding: EdgeInsets.only(right: 16, left: 16, top: 5, bottom: 5),
+                                                margin: EdgeInsets.only(right: width * 0.03, left: width * 0.03, top: 5),
+                                                child: Text(
+                                                  translate("signup.map_done"),
+                                                )),
+                                          ),
+                                      )
+                                      : Center(
+                                        child: GestureDetector(
+                                            onTap: () async {
+                                              String latitude = "30.1309082", longitude = "30.8959127";
+                                              await getLocation(context).then((value) {
+                                                value.getLocation().then((value) {
+                                                  if (value != null) {
+                                                    latitude = value.latitude.toString();
+                                                    longitude = value.longitude.toString();
+                                                  }
+                                                });
                                               });
-                                            });
-                                            Navigator.of(context).push(MaterialPageRoute(
-                                                builder: (context) => ShowOnMapPage(
-                                                      latitude: latitude,
-                                                      longitude: longitude,
-                                                    )));
-                                          },
-                                          child: Container(
-                                              width: width * 0.7,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(100),
-                                                color: appColor,
-                                              ),
-                                              padding: EdgeInsets.only(right: 16, left: 16, top: 5, bottom: 5),
-                                              margin: EdgeInsets.only(right: width * 0.03, left: width * 0.03, top: 5),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: [
-                                                  Text(
-                                                    translate("signup.map_market"),
-                                                    style: GoogleFonts.cairo(color: appColorTwo, fontSize: width * 0.04, fontWeight: FontWeight.bold),
-                                                  ),
-                                                  Icon(
-                                                    Icons.add_location,
-                                                    color: appColorTwo,
-                                                  )
-                                                ],
-                                              )),
-                                        ),
+                                              Navigator.of(context).push(MaterialPageRoute(
+                                                  builder: (context) => ShowOnMapPage(
+                                                        latitude: latitude,
+                                                        longitude: longitude,
+                                                      )));
+                                            },
+                                            child: Container(
+                                                width: width * 0.7,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(100),
+                                                  color: appColor,
+                                                ),
+                                                padding: EdgeInsets.only(right: 16, left: 16, top: 5, bottom: 5),
+                                                margin: EdgeInsets.only(right: width * 0.03, left: width * 0.03, top: 5),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    Text(
+                                                      translate("signup.map_market"),
+                                                      style: GoogleFonts.cairo(color: appColorTwo, fontSize: width * 0.04, fontWeight: FontWeight.bold),
+                                                    ),
+                                                    Icon(
+                                                      Icons.add_location,
+                                                      color: appColorTwo,
+                                                    )
+                                                  ],
+                                                )),
+                                          ),
+                                      ),
                                   SizedBox(
                                     height: height * 0.03,
                                   ),
@@ -535,6 +567,9 @@ class _AddGamesClubPageState extends State<AddGamesClubPage> {
                                     alignment: Alignment.center,
                                     child: GestureDetector(
                                       onTap: () async {
+                                        setState(() {
+                                          images =controller.images;
+                                        });
                                         // if(Constant.subscribe==true){
                                         if (categoryProvider.lat != null || categoryProvider.lng != null) {
                                           if (imageFileUploadOne != null ||
@@ -543,35 +578,38 @@ class _AddGamesClubPageState extends State<AddGamesClubPage> {
                                               titleTextController.text.toString().trim().isNotEmpty) {
                                             List<MultipartFile> multipartImageList =[];
                                             List<File> images_file = [];
-                                        //     if (null != images) {
-                                        //       for (Asset asset in images) {
-                                        //         var path = await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
-                                        //         print(path.toString());
-                                        //         // final byteData = await rootBundle.load('$path');
-                                        //         var file = await getImageFileFromAsset(path);
-                                        //         print(file.toString());
-                                        //         // final file = File('${(await getTemporaryDirectory()).path}/$path');
-                                        //         // await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-                                        //         images_file.add(file);
-                                        //       }
-                                        //     }
-                                        //     await categoryProvider.addGamesClub(
-                                        //       context: context,
-                                        //       country: "${Constant.country}",
-                                        //       phone: phoneTextController.text.toString().trim(),
-                                        //       text: descriptionTextController.text.toString().trim(),
-                                        //       title: titleTextController.text.toString().trim(),
-                                        //       images: images_file,
-                                        //       cityID: _statusSelCityKind.toString(),
-                                        //       stateID: _statusSelState.toString(),
-                                        //     );
-                                        //   } else {
-                                        //     showToast(translate("toast.field_empty"));
-                                        //   }
-                                        // } else {
-                                        //   showToast(translate("signup.map_error"));
+                                            if (images != null) {
+                                              for (var asset in images!) {
+                                                var path = asset.path;
+                                                final file = File('$path');
+                                                images_file.add(file);
+                                                // var path = await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
+                                                // print(path.toString());
+                                                // final byteData = await rootBundle.load('$path');
+                                                // var file = await getImageFileFromAsset(path!);
+                                                // print(file.toString());
+                                                // final file2 = File('${(await getTemporaryDirectory()).path}/$path');
+                                                //  await file2.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+                                                // images_file.add(file2);
+                                              }
+                                            }
+                                            await categoryProvider.addGamesClub(
+                                              context: context,
+                                              country: "${Constant.country}",
+                                              phone: phoneTextController.text.toString().trim(),
+                                              text: descriptionTextController.text.toString().trim(),
+                                              title: titleTextController.text.toString().trim(),
+                                              images: images_file,
+                                              cityID: _statusSelCityKind.toString(),
+                                              stateID: _statusSelState.toString(),
+                                            );
+                                          } else {
+                                            showToast(translate("toast.field_empty"));
+                                          }
+                                        } else {
+                                          showToast(translate("signup.map_error"));
                                         }
-                                        }
+                                        // }
                                         // else{
                                         //   showToast(translate("toast.must_be_subscribe"));
                                         // }
@@ -610,7 +648,7 @@ class _AddGamesClubPageState extends State<AddGamesClubPage> {
   }
 
   // List<Asset> images = [];
-  List images = [];
+  Iterable<ImageFile>? images = [];
   bool old = false;
   final TextEditingController titleTextController = new TextEditingController();
   final TextEditingController descriptionTextController = new TextEditingController();

@@ -9,7 +9,7 @@ import '../sub_categories/games_cards_sub_categories.dart';
 class MainCategoryItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    GameCardCategoryModel model = Provider.of<GameCardCategoryModel>(context);
+    GameCardCategoryModel model = Provider.of<GameCardCategoryModel>(context,listen: false);
     return InkWell(
       onTap: () {
         if (model.subCategoryList!.isNotEmpty) {
