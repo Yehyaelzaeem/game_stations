@@ -16,6 +16,7 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'app_config/providers.dart';
+import 'core/network/dio.dart';
 import 'core/shared_preference/shared_preference.dart';
 import 'helper/checkUser.dart';
 import 'models/Constant.dart';
@@ -30,6 +31,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await CacheHelper.init();
+  await DioHelper.init();
   await GlobalConfiguration().loadFromAsset("configurations");
   await checkUser();
   await checkUser();
@@ -73,7 +75,7 @@ class MyApp extends StatelessWidget {
               GamesCardsListScreen.routeName: (context) => GamesCardsListScreen(),
               CartScreen.routeName: (context) => CartScreen(),
               OrderScreen.routeName: (context) => OrderScreen(),
-              GameCardDetailsScreen.routeName: (context) => GameCardDetailsScreen(),
+              // GameCardDetailsScreen.routeName: (context) => GameCardDetailsScreen(),
             },
           home:
           SplashPage(),

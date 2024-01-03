@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:core';
+import 'dart:core';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +22,7 @@ import '../models/Constant.dart';
 import '../models/ProductDetails.dart';
 import '../repository/auth_user.dart';
 import '../repository/categories.dart';
+import 'games_cards/data/game_card_category_provider.dart';
 import 'store/game_store.dart';
 import 'store/product_details.dart';
 import 'store/search.dart';
@@ -71,16 +74,23 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     });
     super.initState();
   }
+
   _loading()async{
-    await getSlider();
-    await getFreeAds();
+    try {
+      Provider.of<CategoriesProvider>(context, listen: false).getSlider();
+      await getFreeAds();
+    } catch (e) {
+      print(e.toString());
+    }
   }
   GlobalKey? itemKey;
   ScrollController? scrollController;
   GlobalKey<ScaffoldState>? _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    Provider.of<GameCardCategoryProvider>(context, listen: false).fetchData();
+
+    var width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     var categoryProvider = Provider.of<CategoriesProvider>(context, listen: false);
     var userProvider = Provider.of<UserAuth>(context, listen: false);
@@ -108,167 +118,158 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                 valueListenable: Constant.enableFilter,
                 builder: (context, value, child) {
                   if (value == true) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: width * 0.9 + 10,
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: colorWhite),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    status = false;
-                                    city = false;
-                                    kind = false;
-                                    dept = true;
-                                  });
-                                },
-                                child: Container(
-                                  width: 115,
-                                  padding: EdgeInsets.only(left: 4, right: 4),
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: dept == true ? backGround : colorWhite),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton(
-                                      isExpanded: true,
-                                      style: new TextStyle(color: appColor, fontSize: width * 0.03 + 1),
-                                      value: _statusSelDeptKind,
-                                      items: _dropDownMenuItemsDeptKind,
-                                      hint: Text(translate("store.dept"), style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: width * 0.03 + 1)),
-                                      onChanged: (String? selectedItem) {
-                                        setState(() {
-                                          categoryProvider.catIDSearch = selectedItem!;
-                                          _statusSelDeptKind = selectedItem;
-                                          print(_statusSelDeptKind);
-                                        });
-                                      },
-                                      icon: new Icon(Icons.keyboard_arrow_down),
-                                      onTap: () {
-                                        setState(() {
-                                          status = false;
-                                          city = false;
-                                          kind = false;
-                                          dept = true;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    status = false;
-                                    city = true;
-                                    kind = false;
-                                    dept = false;
-                                  });
-                                },
-                                child: Container(
-                                  width: width * 0.3 - 20,
-                                  padding: EdgeInsets.only(left: 3, right: width * 0.03 - 5),
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: city == true ? backGround : colorWhite),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton(
-                                      isExpanded: true,
-                                      style: new TextStyle(color: appColor, fontSize: width * 0.03 + 1),
-                                      value: _statusSelCityKind,
-                                      items: _dropDownMenuItemsCityKind,
-                                      hint: FittedBox(child: Text(translate("store.city"), style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: width * 0.03 + 1))),
-                                      onChanged: (String? selectedItem) {
-                                        setState(() {
-                                          categoryProvider.cityIDSearch = selectedItem!;
-                                          _statusSelCityKind = selectedItem;
-                                          print(_statusSelCityKind);
-                                        });
-                                      },
-                                      icon: new Icon(Icons.keyboard_arrow_down),
-                                      onTap: () {
-                                        setState(() {
-                                          status = false;
-                                          city = true;
-                                          kind = false;
-                                          dept = false;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
+                    return Container(
+                      width: width * 0.9 + 10,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(0),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: colorWhite),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
 
-                              SizedBox(width: 2),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    status = true;
-                                    city = false;
-                                    kind = false;
-                                    dept = false;
-                                  });
-                                },
-                                child: Container(
-                                  width: width * 0.2 + 10,
-                                  padding: EdgeInsets.only(left: 3, right: width * 0.03 - 5),
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: status == true ? backGround : colorWhite),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton(
-                                      isExpanded: true,
-                                      style: new TextStyle(color: appColor, fontSize: width * 0.03 + 1),
-                                      value: _statusSelStatus,
-                                      items: _dropDownMenuItemsStatus,
-                                      hint: Text(
-                                        translate("store.status"),
-                                        style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: width * 0.03 + 1),
-                                      ),
-                                      onChanged: (String? selectedItem) {
-                                        setState(() {
-                                          categoryProvider.typeIDSearch = selectedItem!;
-                                          _statusSelStatus = selectedItem;
-                                          print(_statusSelStatus);
-                                        });
-                                      },
-                                      icon: new Icon(Icons.keyboard_arrow_down),
-                                      onTap: () {
-                                        setState(() {
-                                          status = true;
-                                          city = false;
-                                          kind = false;
-                                          dept = false;
-                                        });
-                                      },
-                                    ),
-                                  ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                status = false;
+                                city = false;
+                                kind = false;
+                                dept = true;
+                              });
+                            },
+                            child: Container(
+                              width: 115,
+                              padding: EdgeInsets.only(left: 4, right: 4),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: dept == true ? backGround : colorWhite),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  style: new TextStyle(color: appColor, fontSize: width * 0.03 + 1),
+                                  value: _statusSelDeptKind,
+                                  items: _dropDownMenuItemsDeptKind,
+                                  hint: Text(translate("store.dept"), style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: width * 0.03 + 1)),
+                                  onChanged: (String? selectedItem) {
+                                    setState(() {
+                                      categoryProvider.catIDSearch = selectedItem!;
+                                      _statusSelDeptKind = selectedItem;
+                                      print(_statusSelDeptKind);
+                                    });
+                                  },
+                                  icon: new Icon(Icons.keyboard_arrow_down),
+                                  onTap: () {
+                                    setState(() {
+                                      status = false;
+                                      city = false;
+                                      kind = false;
+                                      dept = true;
+                                    });
+                                  },
                                 ),
                               ),
-                              IconButton(
-                                  icon: Icon(Icons.filter_alt_rounded),
-                                  onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) => SearchPage(
-                                              word: "",
-                                              type: "${categoryProvider.typeIDSearch}",
-                                              cat: "${categoryProvider.catIDSearch}",
-                                              city: "${categoryProvider.cityIDSearch}",
-                                            )));
-                                  })
-                            ],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-                      ],
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                status = false;
+                                city = true;
+                                kind = false;
+                                dept = false;
+                              });
+                            },
+                            child: Container(
+                              width: width * 0.3 - 20,
+                              padding: EdgeInsets.only(left: 3, right: width * 0.03 - 5),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: city == true ? backGround : colorWhite),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  style: new TextStyle(color: appColor, fontSize: width * 0.03 + 1),
+                                  value: _statusSelCityKind,
+                                  items: _dropDownMenuItemsCityKind,
+                                  hint: FittedBox(child: Text(translate("store.city"), style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: width * 0.03 + 1))),
+                                  onChanged: (String? selectedItem) {
+                                    setState(() {
+                                      categoryProvider.cityIDSearch = selectedItem!;
+                                      _statusSelCityKind = selectedItem;
+                                      print(_statusSelCityKind);
+                                    });
+                                  },
+                                  icon: new Icon(Icons.keyboard_arrow_down),
+                                  onTap: () {
+                                    setState(() {
+                                      status = false;
+                                      city = true;
+                                      kind = false;
+                                      dept = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 2),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                status = true;
+                                city = false;
+                                kind = false;
+                                dept = false;
+                              });
+                            },
+                            child: Container(
+                              width: width * 0.2 + 10,
+                              padding: EdgeInsets.only(left: 3, right: width * 0.03 - 5),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: status == true ? backGround : colorWhite),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  style: new TextStyle(color: appColor, fontSize: width * 0.03 + 1),
+                                  value: _statusSelStatus,
+                                  items: _dropDownMenuItemsStatus,
+                                  hint: Text(
+                                    translate("store.status"),
+                                    style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: width * 0.03 + 1),
+                                  ),
+                                  onChanged: (String? selectedItem) {
+                                    setState(() {
+                                      categoryProvider.typeIDSearch = selectedItem!;
+                                      _statusSelStatus = selectedItem;
+                                      print(_statusSelStatus);
+                                    });
+                                  },
+                                  icon: new Icon(Icons.keyboard_arrow_down),
+                                  onTap: () {
+                                    setState(() {
+                                      status = true;
+                                      city = false;
+                                      kind = false;
+                                      dept = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                              icon: Icon(Icons.filter_alt_rounded),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => SearchPage(
+                                          word: "",
+                                          type: "${categoryProvider.typeIDSearch}",
+                                          cat: "${categoryProvider.catIDSearch}",
+                                          city: "${categoryProvider.cityIDSearch}",
+                                        )));
+                              })
+                        ],
+                      ),
                     );
                   } else {
-                    return SizedBox();
+                    return SizedBox.shrink();
                   }
                 },
               ),
-
               Container(
                 height: height * 0.2 + 30,
                 width: width,
@@ -328,6 +329,8 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                   },
                 ),
               ),
+
+
               Column(
                 children: [
                   FutureBuilder(

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../models/Constant.dart';
 import '../../../models/game_card_model.dart';
 import '../cart/cart_provider.dart';
+import '../products/game_card_details.dart';
 
 class GameCardItemWidget extends StatelessWidget {
   final GameCardModel product;
@@ -14,11 +15,14 @@ class GameCardItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     CartProvider cartProvider = Provider.of<CartProvider>(context,listen: false);
     print('GameCardItemWidget======================');
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).pushNamed(GameCardDetailsScreen.routeName, arguments: product);  
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>GameCardDetailsScreen(gameCardModel: product,)));
+
+        // Navigator.of(context).pushNamed(GameCardDetailsScreen.routeName, arguments: product);
             },
       child: Container(
         margin: const EdgeInsets.only(left: 20, right: 20),

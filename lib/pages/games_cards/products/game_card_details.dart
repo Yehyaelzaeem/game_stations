@@ -10,13 +10,14 @@ import '../../../models/game_card_model.dart';
 import '../cart/cart_provider.dart';
 
 class GameCardDetailsScreen extends StatelessWidget {
-  GameCardDetailsScreen({Key? key}) : super(key: key);
+  GameCardDetailsScreen({Key? key, required this.gameCardModel}) : super(key: key);
   static const routeName = "/games_card_details_screen";
-
+final GameCardModel gameCardModel;
   @override
   Widget build(BuildContext context) {
+    print('namenamename ===  : ${gameCardModel.name}');
     CartProvider cartProvider = Provider.of<CartProvider>(context);
-    GameCardModel model = ModalRoute.of(context)!.settings.arguments as GameCardModel;
+    GameCardModel model = gameCardModel;
     return Scaffold(
       body: Column(
         children: [

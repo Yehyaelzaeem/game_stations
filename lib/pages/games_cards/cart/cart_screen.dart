@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -7,6 +8,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/network/apis.dart';
+import '../../../core/network/dio.dart';
 import '../../../elements/widget_store_header.dart';
 import '../../../helper/showtoast.dart';
 import '../../../models/Constant.dart';
@@ -37,7 +40,7 @@ class CartScreen extends StatelessWidget {
             ...cartProvider.products.map((e) {
               return CardItem(e);
             }).toList(),
-
+            SizedBox(height: 20),
             Container(
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
@@ -102,7 +105,7 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 20),
             CompletePaymentButton(),
             SizedBox(height: 12),
           ],
@@ -123,7 +126,9 @@ class _CompletePaymentButtonState extends State<CompletePaymentButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+
         CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+     try{
         if (cartProvider.products.isEmpty) return;
         if (Constant.token == null || Constant.token!.isEmpty) {
           Fluttertoast.showToast(
@@ -140,42 +145,57 @@ class _CompletePaymentButtonState extends State<CompletePaymentButton> {
         loading = true;
         setState(() {});
         String url = "";
-        try {
-          Dio dio = Dio();
+
+
           Map<String, dynamic> params = {};
           for (int i = 0; i < cartProvider.products.length; i++) {
             if (cartProvider.products[i].count! > 0) {
-              params['product[$i][id]'] = '${cartProvider.products[i].id}';
-              params['product[$i][qty]'] = '${cartProvider.products[i].count}';
+              params['product[$i][id]'] = '${cartProvider.products[i].id.toString()}';
+              params['product[$i][qty]'] = '${cartProvider.products[i].count.toString()}';
             }
           }
           params.forEach((key, value) {
             print("------> key->$key: value->$value");
           });
-          dio.options.baseUrl = "https://gamestationapp.com/api/";
-          Response response = await dio.post(
-            "checkout",
-            queryParameters: params,
-            options: Options(
-              headers: {
-                "Authorization": "Bearer ${Constant.token}",
-                "Accept": "application/json",
-                "x-api-key": "mwDA9w",
-                "Content-Language": Constant.lang == "ar" ? "ar" : "en",
-                "Content-Country": Constant.country,
-              },
-            ),
-          );
-          url = response.data['payment_url'];
+
+        var headers = {
+          'x-api-key': 'mwDA9w',
+          'Content-Language': 'ar',
+          'Content-Country': '1',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${Constant.token}'
+        };
+        var data = FormData.fromMap(params);
+        var dio = Dio();
+        var response = await dio.request(
+          'http://dev.gamestationapp.com/api/checkout',
+          options: Options(
+            method: 'POST',
+            headers: headers,
+          ),
+          data: data,
+        );
+
+        if (response.statusCode == 200) {
+          showToast('Success');
+          print(json.encode(response.data));
+        }
+        else {
+          showToast(response.statusMessage.toString());
+          print(response.statusMessage);
+        }
+
+           url = response.data['payment_url'];
           print('------>response  ${response.data}');
           print('------>url  $url');
-          if (url.isNotEmpty)
+          if (url.isNotEmpty&&url!='')
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => InAppWebViewExampleScreen(url: url),
               ),
             );
-          showToast('${response.data['message']}');
+
+          // showToast('${response.data['message']}');
 
           // Fluttertoast.showToast(
           //   msg:"Successfully created" ,
@@ -187,8 +207,10 @@ class _CompletePaymentButtonState extends State<CompletePaymentButton> {
           // );
         } on DioError catch (e) {
 
-          if (e.response!.data['message'] != null)
+          if (e.response!.data['message'] != null){
+            print('errrrrrorr : ${e.response!.data['message']}');
             showToast('${e.response!.data['message']}');
+          }
           else
             showToast("Something went wrong please try again later");
         }

@@ -13,6 +13,7 @@ class GamesCardMainCategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('***GamesCardMainCategoriesScreen****');
     String title = ModalRoute.of(context)!.settings.arguments as String;
     Provider.of<GameCardCategoryProvider>(context, listen: false).fetchData();
     return Scaffold(
@@ -25,6 +26,7 @@ class GamesCardMainCategoriesScreen extends StatelessWidget {
           GameCardCategoriesAppBar(title: title),
 
           SizedBox(height: 16),
+
           Consumer<GameCardCategoryProvider>(
             builder: (context, value, child) {
               if (value.isLoading) return Center(child: CircularProgressIndicator());
@@ -59,23 +61,26 @@ class GamesCardMainCategoriesScreen extends StatelessWidget {
                     ),
                   if (value.products.isEmpty || !value.inSearchMode)
                     Expanded(
-                      child: GridView.builder(
-                        padding: const EdgeInsets.only(right: 20, left: 20),
-                        shrinkWrap: true,
-                        itemCount: value.items.length,
-                        scrollDirection: Axis.vertical,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 20,
-                          childAspectRatio: 1.3,
-                          crossAxisSpacing: 10,
+                      child: Container(
+                        color:Colors.blue,
+                        child: GridView.builder(
+                          padding: const EdgeInsets.only(right: 20, left: 20),
+                          shrinkWrap: true,
+                          itemCount: value.items.length,
+                          scrollDirection: Axis.vertical,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 20,
+                            childAspectRatio: 1.3,
+                            crossAxisSpacing: 10,
+                          ),
+                          itemBuilder: (context, index) {
+                            return ChangeNotifierProvider.value(
+                              child: MainCategoryItemWidget(),
+                              value: value.items[index],
+                            );
+                          },
                         ),
-                        itemBuilder: (context, index) {
-                          return ChangeNotifierProvider.value(
-                            child: MainCategoryItemWidget(),
-                            value: value.items[index],
-                          );
-                        },
                       ),
                     ),
                 ],

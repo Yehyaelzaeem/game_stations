@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:provider/provider.dart';
 
 import '../core/shared_preference/shared_preference.dart';
 import '../helper/showtoast.dart';
@@ -25,7 +26,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    loadCountry();
     _loadWidget();
     _animationController = AnimationController(vsync: this, duration: Duration(seconds: 3));
     _animation = Tween<Offset>(
@@ -36,33 +36,28 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       // when animation completes, put your code here
     });
   }
-  loadCountry()async{
-    var res =await CacheHelper.getDate(key: 'country');
-    print('============= ${Constant.country }');
-    print('============= ${res }');
-  }
-  final splashDelay = 5;
+
+  final splashDelay = 2550;
   _loadWidget() async {
-    try {
-      await getSlider();
-      await getFreeAds();
-    } catch (e) {
-      print(e.toString());
-    }
-    var _duration = Duration(seconds: splashDelay);
+    // try {
+    //   Provider.of<CategoriesProvider>(context, listen: false).getSlider();
+    // } catch (e) {
+    //   print(e.toString());
+    // }
+    var _duration = Duration(milliseconds: splashDelay);
+    Provider.of<CategoriesProvider>(context, listen: false).getSlider();
     return Timer(_duration, navigationPage);
   }
+
 
    navigationPage() async{
      var res =await CacheHelper.getDate(key: 'country');
      Constant.country = res;
-     // var res =await CacheHelper.getDate(key: 'isLog');
      if(res !=null){
-    if (Platform.isIOS) FlutterAppBadger.removeBadge();
+       if (Platform.isIOS) FlutterAppBadger.removeBadge();
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) =>
    RootPages()));
-    // SliderPage() : RootPages()));
-    }
+     }
      else{
        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) =>
        SliderPage() ));

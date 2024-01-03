@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import '../helper/getCitiesProvider.dart';
+import '../models/game_card_category_model.dart';
 import '../pages/games_cards/cart/cart_provider.dart';
 import '../pages/games_cards/data/game_card_category_provider.dart';
 import '../pages/games_cards/data/game_card_provider.dart';
@@ -29,6 +30,7 @@ class ProvidersList {
     ChangeNotifierProvider.value(value: GameCardCategoryProvider()),
     ChangeNotifierProvider.value(value: GameCardProvider()),
     ChangeNotifierProvider.value(value: CartProvider()),
-    ChangeNotifierProvider.value(value: UpdateFMCTokenProvider())
+    ChangeNotifierProvider.value(value: UpdateFMCTokenProvider()),
+    ChangeNotifierProvider.value(value: GameCardCategoryModel())
   ];
 }

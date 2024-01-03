@@ -23,7 +23,7 @@ class GameCardCategoryProvider with ChangeNotifier {
     if (_items.isNotEmpty) return;
     _isLoading = true;
     _items.clear();
-    debugPrint("ESSAMresponseJSON==fggfyehya================>:${GlobalConfiguration().getString('api_base_url_dev')}cats_games");
+    // debugPrint("ESSAMresponseJSON==fggfyehya================>:${GlobalConfiguration().getString('api_base_url_dev')}cats_games");
     final String url = "${GlobalConfiguration().getString('api_base_url_dev')}cats_games";
     var response = await http.get(Uri.parse(url), headers: {
       "Accept": "application/json",
@@ -34,7 +34,7 @@ class GameCardCategoryProvider with ChangeNotifier {
 
     String responseBody = response.body;
     Map<String, dynamic> responseJSON = json.decode(responseBody);
-    debugPrint("ESSAMresponseJSON==================>1${responseJSON}");
+    // debugPrint("ESSAMresponseJSON==================>1${responseJSON}");
 
     if (responseJSON['success'] as bool && response.statusCode == 200) {
       for (var object in responseJSON['data']) {

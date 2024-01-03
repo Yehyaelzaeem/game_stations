@@ -38,6 +38,7 @@ class _RootPagesState extends State<RootPages> {
   ];
   @override
   void initState() {
+    _loading();
     Provider.of<MassageCountProvider>(context, listen: false).messageCount();
     if (widget.checkPage != null) {
       selectedIndex = int.parse(widget.checkPage.toString()).toInt();
@@ -45,6 +46,14 @@ class _RootPagesState extends State<RootPages> {
       selectedIndex = 0;
     }
     super.initState();
+  }
+  _loading()async{
+    try {
+      Provider.of<CategoriesProvider>(context, listen: false).getSlider();
+      await getFreeAds();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   var userInfo;
@@ -160,16 +169,15 @@ class _RootPagesState extends State<RootPages> {
                 SizedBox(
                   width: 1,
                 ),
-                Consumer<MassageCountProvider>(builder: (context, unread, child) {
-                  return Stack(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
 
-                          print('meee==========${unread.unRead}');
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatListPage()));
-                        },
-                        child: Stack(
+                InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatListPage()));
+                  },
+                  child: Consumer<MassageCountProvider>(builder: (context, unread, child) {
+                    return Stack(
+                      children: [
+                        Stack(
                           alignment: Alignment.centerRight,
                           children: [
                             Align(
@@ -192,23 +200,25 @@ class _RootPagesState extends State<RootPages> {
                             ),
                           ],
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.lerp(Alignment.topRight,
-                            Alignment.center,0.7)!,
-                        child: CircleAvatar(
-                          radius: 6,
-                          backgroundColor: Colors.black,
-                          child: Center(
-                              child: Text(
-                            "${unread.unRead}",
-                            style: TextStyle(fontSize: 7, fontWeight: FontWeight.bold,color: Colors.white),
-                          )),
-                        ),
-                      )
-                    ],
-                  );
-                }),
+                        Align(
+                          alignment: Alignment.lerp(Alignment.topRight,
+                              Alignment.center,0.7)!,
+                          child: CircleAvatar(
+                            radius: 6,
+                            backgroundColor: Colors.black,
+                            child: Center(
+                                child: Text(
+                              "${unread.unRead}",
+                              style: TextStyle(fontSize: 7, fontWeight: FontWeight.bold,color: Colors.white),
+                            )),
+                          ),
+                        )
+                      ],
+                    );
+                  }),
+                ),
+
+
               ],
             ),
           ),

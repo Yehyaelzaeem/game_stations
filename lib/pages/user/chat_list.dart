@@ -24,7 +24,10 @@ class _ChatListPageState extends State<ChatListPage> {
     double width = MediaQuery.of(context).size.width;
     var chatProvider = Provider.of<ChatProvider>(context);
     return WillPopScope(
-        onWillPop: () => Future.value(false),
+        onWillPop: () {
+          Navigator.of(context).pop();
+          return Future.value(false);
+        } ,
         child: Scaffold(
             body:
             SingleChildScrollView(
@@ -125,17 +128,32 @@ class _ChatListPageState extends State<ChatListPage> {
                                                 border: Border.all(width: 1),
                                               ),
                                             ):  Container(
+                                              child:  FadeInImage(
+                                                image:
+                                                NetworkImage("${snapshot.data![index].saller_image}"),
+                                                placeholder: AssetImage(
+                                                    "assets/images/placeholder.jpg"),
+                                                imageErrorBuilder:
+                                                    (context, error, stackTrace) {
+                                                  return Image.asset(
+                                                      'assets/images/error.jpg',
+                                                      fit: BoxFit.fitWidth);
+                                                },
+                                                fit: BoxFit.fitWidth,
+                                              ),
                                               height: height*0.06,
                                               width: width*0.1+10,
                                               decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image:
-                                                  NetworkImage("${snapshot.data![index].saller_image}"),
-                                                  fit: BoxFit.cover,
-                                                ),
+                                                // image: DecorationImage(
+                                                //   image:
+                                                //
+                                                //   NetworkImage("${snapshot.data![index].saller_image}"),
+                                                //   fit: BoxFit.cover,
+                                                // ),
                                                 borderRadius: BorderRadius.circular(50),
                                                 border: Border.all(width: 1),
                                               ),
+
                                             ),
                                             SizedBox(width: width*0.05,),
                                             Column(
