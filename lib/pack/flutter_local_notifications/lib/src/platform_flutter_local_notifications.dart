@@ -44,12 +44,13 @@ class MethodChannelFlutterLocalNotificationsPlugin
 
   @override
   Future<NotificationAppLaunchDetails?> getNotificationAppLaunchDetails() async {
-    final Map<Object, Object> result =
+    final Map<String, dynamic> result =
         await _channel.invokeMethod('getNotificationAppLaunchDetails');
-    // return result != null
-    //     ? NotificationAppLaunchDetails(result['notificationLaunchedApp'],
-    //         result.containsKey('payload') ? result['payload'] : null)
-    //     : null;
+    return result != null
+        ? NotificationAppLaunchDetails(result['notificationLaunchedApp'],
+            // result.containsKey('payload')! ? result!['payload'] : null,
+    )
+        : null;
   }
 
   @override

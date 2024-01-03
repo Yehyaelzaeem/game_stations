@@ -45,8 +45,12 @@ class CategoriesProvider extends ChangeNotifier {
 
     String te = "";
 
-    if (itemsLength! > 0) {
-      categoryList.insert(0, gamesCardsCategory);
+    try{
+      if (itemsLength! > 0) {
+        categoryList.insert(0, gamesCardsCategory);
+      }
+    }catch(e){
+      print(e.toString());
     }
 
     print("categoriesCountry${Constant.country}: " + responseJSON.toString());
@@ -66,7 +70,7 @@ class CategoriesProvider extends ChangeNotifier {
       }
       if (notCheck == "not") {
         print('------> notCheck == "not"');
-        int length = itemsLength > 0 ? itemsLength : responseJSON['data'].length;
+        int length = itemsLength! > 0 ? itemsLength : responseJSON['data'].length;
         print('------> length $length');
         for (var i = startFromIndex; i < length; i++) {
           print('------> for $i');
@@ -175,6 +179,7 @@ class CategoriesProvider extends ChangeNotifier {
   }
 
   Future<List<ProductDetails>?> getProducts(String checkCategoryId, String word, {String? type, String? city, bool? insideDept}) async {
+     print("start get product");
     List<ProductDetails> productsList = [];
     if (type != null) {
       if (type.toString().contains("1")) {
@@ -193,9 +198,9 @@ class CategoriesProvider extends ChangeNotifier {
     });
     String responseBody = response.body;
     var responseJSON = json.decode(responseBody);
-    print(url.toString());
-    print("productsCountry${Constant.country}: " + response.body.toString());
-    print(Constant.token.toString());
+    // print(url.toString());
+    // print("productsCountry${Constant.country}: " + response.body.toString());
+    // print(Constant.token.toString());
     List<ProductDetails> productDetailsList = [];
     if (response.statusCode == 200) {
       for (var data in responseJSON['data']) {
@@ -935,6 +940,37 @@ class CategoriesProvider extends ChangeNotifier {
       return "true";
     }
   }
+  Future<List<SliderModel>> getSlider() async {
+    List<SliderModel> sliderList = [];
+    final String myUrl = "${GlobalConfiguration().getString('api_base_url')}home";
+    try {
+      var response = await http.get(
+        Uri.parse(myUrl),
+        headers: {"Accept": "application/json", "x-api-key": "mwDA9w", "Content-Language": "en", "Content-Country": "1"},
+      );
+      String responseBody = response.body;
+      // print("sliderData:\n"+response.body);
+      var responseJSON = json.decode(responseBody);
+      if (response.statusCode == 200) {
+        if (Constant.sliders.value.length == 0) {
+          for (var data in responseJSON['data']['sliders']) {
+            var thisList = SliderModel(
+              image: data['image'].toString(),
+              link: data['link'].toString(),
+              name: data['title'].toString(),
+            );
+            Constant.sliders.value.add(thisList);
+            sliderList.add(thisList);
+          }
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    notifyListeners();
+    return sliderList;
+  }
+
 }
 
 bool showAds = true;
@@ -965,35 +1001,6 @@ Future getFreeAds() async {
   }
 }
 
-Future<List<SliderModel>> getSlider() async {
-  List<SliderModel> sliderList = [];
-  final String myUrl = "${GlobalConfiguration().getString('api_base_url')}home";
-  try {
-    var response = await http.get(
-      Uri.parse(myUrl),
-      headers: {"Accept": "application/json", "x-api-key": "mwDA9w", "Content-Language": "en", "Content-Country": "1"},
-    );
-    String responseBody = response.body;
-    // print("sliderData:\n"+response.body);
-    var responseJSON = json.decode(responseBody);
-    if (response.statusCode == 200) {
-      if (Constant.sliders.value.length == 0) {
-        for (var data in responseJSON['data']['sliders']) {
-          var thisList = SliderModel(
-            image: data['image'].toString(),
-            link: data['link'].toString(),
-            name: data['title'].toString(),
-          );
-          Constant.sliders.value.add(thisList);
-          sliderList.add(thisList);
-        }
-      }
-    }
-  } catch (e) {
-    print(e.toString());
-  }
-  return sliderList;
-}
 
 Future<SliderModel> getPopUp() async {
   String url = "${GlobalConfiguration().getString('api_base_url')}popup";

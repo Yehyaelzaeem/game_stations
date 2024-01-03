@@ -82,6 +82,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     SizedBox(
                       width: width * 0.03,
                     ),
+
                     IconButton(
                         icon: Icon(
                           Icons.arrow_forward_ios,
@@ -491,6 +492,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         ],
                       ),
                       SizedBox(height: height * 0.03),
+
                       //Report or block
                       Column(
                         children: [
@@ -534,7 +536,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               ],
                             ),
                           ),
-                        
+
                           GestureDetector(
                             onTap: () {
                               hideAd(
@@ -561,6 +563,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     ],
                   ),
                 ),
+
                 SizedBox(
                   height: height * 0.02,
                 ),
@@ -667,10 +670,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                                                   Row(
                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                     children: [
-                                                                      Text(
-                                                                        "${snapshot.data![index].productName}",
-                                                                        style: GoogleFonts.cairo(fontSize: width * 0.03 + 2, color: Colors.black45, fontWeight: FontWeight.bold),
+                                                                      Expanded(
+                                                                        child: Text(
+                                                                          "${snapshot.data![index].productName}",
+                                                                          style: GoogleFonts.cairo(fontSize: width * 0.03 + 2, color: Colors.black45, fontWeight: FontWeight.bold),
+                                                                        ),
                                                                       ),
+
                                                                       Text(
                                                                         "${snapshot.data![index].price}" + translate("store.bound"),
                                                                         style: GoogleFonts.cairo(

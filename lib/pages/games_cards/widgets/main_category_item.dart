@@ -9,12 +9,22 @@ import '../sub_categories/games_cards_sub_categories.dart';
 class MainCategoryItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    GameCardCategoryModel model = Provider.of<GameCardCategoryModel>(context);
+
+    GameCardCategoryModel model = Provider.of<GameCardCategoryModel>(context,listen: false);
+
     return InkWell(
       onTap: () {
         if (model.subCategoryList!.isNotEmpty) {
+
+          print("name :  MainCategoryItemWidget subCategoryList  => GamesCardSubCategoriesScreen");
+          print("id :  ${model.id}");
+          print("name :  ${model.name}");
+          print("subCategoryList :  ${model.subCategoryList![0].name}");
+
           Navigator.of(context).pushNamed(GamesCardSubCategoriesScreen.routeName, arguments: model);
         } else {
+          print("name :  MainCategoryItemWidget not subCategoryList  => GamesCardsListScreen");
+
           Navigator.of(context).pushNamed(GamesCardsListScreen.routeName, arguments: model);
         }
       },

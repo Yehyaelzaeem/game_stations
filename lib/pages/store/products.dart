@@ -33,31 +33,33 @@ class _ProductsPageState extends State<ProductsPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
+    print('product title ****************************: ${widget.categoryTitle}');
+    print('catID title *******************************: ${widget.catID}');
     _dropDownMenuItemsCityKind = _getDropDownMenuItemsCityKind();
     _dropDownMenuItemsStatus = _getDropDownMenuItemsStatus();
     setState(() {
       showAds = true;
     });
-    Timer(Duration(seconds: 40), () {
-      if (showAds == true) {
-        if (Constant.subscribe != true) {
-          getPopUp().then((value) async {
-            if (value != null && value.image.toString().trim() != "null") {
-              WidgetsBinding.instance.addPostFrameCallback((_) async {
-                await showAlertDialogPopUp(
-                  context,
-                  img: value.image.toString(),
-                  link: value.link.toString(),
-                );
-                setState(() {
-                  showAds = false;
-                });
-              });
-            }
-          });
-        }
-      }
-    });
+    // Timer(Duration(seconds: 40), () {
+    //   if (showAds == true) {
+    //     if (Constant.subscribe != true) {
+    //       getPopUp().then((value) async {
+    //         if (value != null && value.image.toString().trim() != "null") {
+    //           WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //             await showAlertDialogPopUp(
+    //               context,
+    //               img: value.image.toString(),
+    //               link: value.link.toString(),
+    //             );
+    //             setState(() {
+    //               showAds = false;
+    //             });
+    //           });
+    //         }
+    //       });
+    //     }
+    //   }
+    // });
     super.initState();
   }
 
@@ -90,6 +92,7 @@ class _ProductsPageState extends State<ProductsPage> {
               ),
             ),
             SizedBox(height: 16),
+
             Container(
               width: width - 10,
               height: height * 0.06,
@@ -189,6 +192,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 ],
               ),
             ),
+
             Container(
               height: height * 0.8 - 30,
               width: width - 30,
@@ -226,6 +230,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                 },
                                               )
                                             : SizedBox(),
+
                                         SizedBox(height: 8),
                                         GestureDetector(
                                           onTap: () async {
@@ -261,7 +266,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                 children: [
                                                   Container(
                                                     height: height * 0.3 - 5,
-                                                    width: width * 0.3 - 20,
+                                                    width: width * 0.3 ,
                                                     decoration: BoxDecoration(
                                                       color: backGround,
                                                       borderRadius: BorderRadius.circular(20),
@@ -270,134 +275,137 @@ class _ProductsPageState extends State<ProductsPage> {
                                                   ),
                                                   Container(
                                                     height: height * 0.3,
+                                                    width: width * 0.6,
                                                     decoration: BoxDecoration(color: colorWhite, borderRadius: BorderRadius.only(bottomRight: Radius.circular(30), bottomLeft: Radius.circular(30))),
                                                     padding: EdgeInsets.only(left: width * 0.01, right: width * 0.01),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: height * 0.02,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 200,
-                                                              height: 70,
-                                                              child: AutoSizeText(
-                                                                "${snapshot.data![index].productName}",
-                                                                maxLines: 2,
-                                                                style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 14),
-                                                              ),
-                                                            ),
-                                                            SizedBox(width: 5),
-                                                            SizedBox(
-                                                              width: width * 0.1,
-                                                              child: snapshot.data![index].special == "true"
-                                                                  ? Text(
-                                                                      translate("store.special"),
-                                                                      style: GoogleFonts.cairo(color: appColorTwo),
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                    )
-                                                                  : Text(""),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Text(
-                                                          "${snapshot.data![index].price}" + translate("store.bound"),
-                                                          style: GoogleFonts.cairo(
-                                                            fontWeight: FontWeight.bold,
-                                                            color: appColor,
+                                                    child: FittedBox(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: height * 0.02,
                                                           ),
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Icon(Icons.person, color: appColor),
-                                                            SizedBox(width: width * 0.5, child: Text("${snapshot.data![index].marketName.toString()}", style: GoogleFonts.cairo(color: Colors.grey))),
-                                                          ],
-                                                        ),
-                                                        snapshot.data![index].rate_value.toString() != "null" ? reView(int.parse(snapshot.data![index].rate_value.toString()), context) : SizedBox(),
-                                                        Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons.location_pin,
-                                                              color: appColor,
-                                                              size: width * 0.05,
-                                                            ),
-                                                            Text(
-                                                              "${snapshot.data![index].countryName}",
-                                                              style: GoogleFonts.cairo(
-                                                                color: Colors.grey,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        SizedBox(height: 8),
-                                                        Align(
-                                                          alignment: Alignment.bottomCenter,
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [
-                                                              GestureDetector(
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(100),
-                                                                    color: appColor,
-                                                                  ),
-                                                                  padding: EdgeInsets.only(right: 10, left: 10, top: 3, bottom: 3),
-                                                                  child: Text(
-                                                                    translate("store.contact_with_seller"),
-                                                                    style: GoogleFonts.cairo(color: appColorTwo, fontWeight: FontWeight.bold),
-                                                                  ),
+                                                              SizedBox(
+                                                                width: 200,
+                                                                height: 70,
+                                                                child: AutoSizeText(
+                                                                  "${snapshot.data![index].productName}",
+                                                                  maxLines: 2,
+                                                                  style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 14),
                                                                 ),
                                                               ),
+                                                              SizedBox(width: 5),
                                                               SizedBox(
-                                                                width: width * 0.01,
+                                                                width: width * 0.1,
+                                                                child: snapshot.data![index].special == "true"
+                                                                    ? Text(
+                                                                        translate("store.special"),
+                                                                        style: GoogleFonts.cairo(color: appColorTwo),
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                      )
+                                                                    : Text(""),
                                                               ),
-                                                              GestureDetector(
-                                                                onTap: () async {
-                                                                  if (Constant.token == null || Constant.token.toString() == "null" || Constant.token.toString() == "") {
-                                                                    SmallWidgets.shouldBeRegister( context);
-                                                                  } else {
-                                                                    await favProvider
-                                                                        .addToFavourite(
-                                                                            productID: "${snapshot.data![index].productId}",
-                                                                            context: context,
-                                                                            favOrDis: snapshot.data![index].fav.toString().trim() == "true" ? "false" : "true")
-                                                                        .then((value) {
-                                                                      setState(() {
-                                                                        snapshot.data![index].fav = value.toString().trim();
-                                                                      });
-                                                                      // if(snapshot.data[index].fav.toString().trim()=="false"){
-                                                                      //   setState(() {
-                                                                      //     snapshot.data[index].fav="false";
-                                                                      //   });
-                                                                      // }else{
-                                                                      //   if(value.toString().trim()=="true"){
-                                                                      //     setState(() {
-                                                                      //       snapshot.data[index].fav="true";
-                                                                      //     });
-                                                                      //   }
-                                                                      // }
-                                                                    });
-                                                                  }
-                                                                },
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(100),
-                                                                    color: appColor,
-                                                                  ),
-                                                                  padding: EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 5),
-                                                                  child: Icon(
-                                                                    snapshot.data![index].fav.toString() == "true" ? Icons.favorite : Icons.favorite_border,
-                                                                    color: appColorTwo,
-                                                                  ),
+                                                            ],
+                                                          ),
+                                                          Text(
+                                                            "${snapshot.data![index].price}" + translate("store.bound"),
+                                                            style: GoogleFonts.cairo(
+                                                              fontWeight: FontWeight.bold,
+                                                              color: appColor,
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(Icons.person, color: appColor),
+                                                              SizedBox(width: width * 0.5, child: Text("${snapshot.data![index].marketName.toString()}", style: GoogleFonts.cairo(color: Colors.grey))),
+                                                            ],
+                                                          ),
+                                                          snapshot.data![index].rate_value.toString() != "null" ? reView(int.parse(snapshot.data![index].rate_value.toString()), context) : SizedBox(),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons.location_pin,
+                                                                color: appColor,
+                                                                size: width * 0.05,
+                                                              ),
+                                                              Text(
+                                                                "${snapshot.data![index].countryName}",
+                                                                style: GoogleFonts.cairo(
+                                                                  color: Colors.grey,
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
-                                                        ),
-                                                      ],
+                                                          SizedBox(height: 8),
+                                                          Align(
+                                                            alignment: Alignment.bottomCenter,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                              children: [
+                                                                GestureDetector(
+                                                                  child: Container(
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(100),
+                                                                      color: appColor,
+                                                                    ),
+                                                                    padding: EdgeInsets.only(right: 10, left: 10, top: 3, bottom: 3),
+                                                                    child: Text(
+                                                                      translate("store.contact_with_seller"),
+                                                                      style: GoogleFonts.cairo(color: appColorTwo, fontWeight: FontWeight.bold),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: width * 0.01,
+                                                                ),
+                                                                GestureDetector(
+                                                                  onTap: () async {
+                                                                    if (Constant.token == null || Constant.token.toString() == "null" || Constant.token.toString() == "") {
+                                                                      SmallWidgets.shouldBeRegister( context);
+                                                                    } else {
+                                                                      await favProvider
+                                                                          .addToFavourite(
+                                                                              productID: "${snapshot.data![index].productId}",
+                                                                              context: context,
+                                                                              favOrDis: snapshot.data![index].fav.toString().trim() == "true" ? "false" : "true")
+                                                                          .then((value) {
+                                                                        setState(() {
+                                                                          snapshot.data![index].fav = value.toString().trim();
+                                                                        });
+                                                                        // if(snapshot.data[index].fav.toString().trim()=="false"){
+                                                                        //   setState(() {
+                                                                        //     snapshot.data[index].fav="false";
+                                                                        //   });
+                                                                        // }else{
+                                                                        //   if(value.toString().trim()=="true"){
+                                                                        //     setState(() {
+                                                                        //       snapshot.data[index].fav="true";
+                                                                        //     });
+                                                                        //   }
+                                                                        // }
+                                                                      });
+                                                                    }
+                                                                  },
+                                                                  child: Container(
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(100),
+                                                                      color: appColor,
+                                                                    ),
+                                                                    padding: EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 5),
+                                                                    child: Icon(
+                                                                      snapshot.data![index].fav.toString() == "true" ? Icons.favorite : Icons.favorite_border,
+                                                                      color: appColorTwo,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -436,7 +444,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                             children: [
                                               Container(
                                                 height: height * 0.3 - 5,
-                                                width: width * 0.3 - 10,
+                                                width: width * 0.3 ,
                                                 decoration: BoxDecoration(
                                                   color: backGround,
                                                   borderRadius: BorderRadius.circular(20),
@@ -445,134 +453,137 @@ class _ProductsPageState extends State<ProductsPage> {
                                               ),
                                               Container(
                                                 height: height * 0.3,
+                                                width: width * 0.6,
                                                 decoration: BoxDecoration(color: colorWhite, borderRadius: BorderRadius.only(bottomRight: Radius.circular(30), bottomLeft: Radius.circular(30))),
                                                 padding: EdgeInsets.only(left: width * 0.01, right: width * 0.01),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(height: 8),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        SizedBox(
-                                                          width: 200,
-                                                          height: 70,
-                                                          child: AutoSizeText(
-                                                            "${snapshot.data![index].productName}",
-                                                            maxLines: 2,
-                                                            style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 14),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 5),
-                                                        SizedBox(
-                                                          width: width * 0.1,
-                                                          child: snapshot.data![index].special == "true"
-                                                              ? Text(
-                                                                  translate("store.special"),
-                                                                  style: GoogleFonts.cairo(color: appColorTwo),
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                )
-                                                              : Text(""),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text(
-                                                      "${snapshot.data![index].price}" + translate("store.bound"),
-                                                      style: GoogleFonts.cairo(
-                                                        fontWeight: FontWeight.bold,
-                                                        color: appColor,
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Icon(Icons.person, color: appColor),
-                                                        SizedBox(
-                                                            width: width * 0.5,
-                                                            child: Text(
-                                                              "${snapshot.data![index].marketName.toString()}",
-                                                              style: GoogleFonts.cairo(
-                                                                color: Colors.grey,
-                                                              ),
-                                                            )),
-                                                      ],
-                                                    ),
-                                                    snapshot.data![index].rate_value.toString() != "null" ? reView(int.parse(snapshot.data![index].rate_value.toString()), context) : SizedBox(),
-                                                    Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.location_pin,
-                                                          color: appColor,
-                                                          size: width * 0.05,
-                                                        ),
-                                                        Text(
-                                                          "${snapshot.data![index].countryName}",
-                                                          style: GoogleFonts.cairo(
-                                                            color: Colors.grey,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: 8),
-                                                    Align(
-                                                      alignment: Alignment.bottomCenter,
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                child: FittedBox(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      SizedBox(height: 8),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [
-                                                          GestureDetector(
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(100),
-                                                                color: appColor,
-                                                              ),
-                                                              padding: EdgeInsets.only(right: 10, left: 10, top: 3, bottom: 3),
-                                                              child: Text(
-                                                                translate("store.contact_with_seller"),
-                                                                style: GoogleFonts.cairo(color: appColorTwo, fontWeight: FontWeight.bold),
-                                                              ),
+                                                          SizedBox(
+                                                            width: 200,
+                                                            height: 70,
+                                                            child: AutoSizeText(
+                                                              "${snapshot.data![index].productName}",
+                                                              maxLines: 2,
+                                                              style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 14),
                                                             ),
                                                           ),
+                                                          SizedBox(width: 5),
                                                           SizedBox(
-                                                            width: width * 0.01,
+                                                            width: width * 0.1,
+                                                            child: snapshot.data![index].special == "true"
+                                                                ? Text(
+                                                                    translate("store.special"),
+                                                                    style: GoogleFonts.cairo(color: appColorTwo),
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                  )
+                                                                : Text(""),
                                                           ),
-                                                          GestureDetector(
-                                                            onTap: () async {
-                                                              if (Constant.token == null || Constant.token.toString() == "null" || Constant.token.toString() == "") {
-                                                                SmallWidgets.shouldBeRegister(context);
-                                                              } else {
-                                                                await favProvider
-                                                                    .addToFavourite(
-                                                                        productID: "${snapshot.data![index].productId}",
-                                                                        context: context,
-                                                                        favOrDis: snapshot.data![index].fav.toString().trim() == "true" ? "dis" : "fav")
-                                                                    .then((value) {
-                                                                  if (snapshot.data![index].fav.toString().trim() == "true") {
-                                                                    setState(() {
-                                                                      snapshot.data![index].fav = "false";
-                                                                    });
-                                                                  } else {
-                                                                    setState(() {
-                                                                      snapshot.data![index].fav = "true";
-                                                                    });
-                                                                  }
-                                                                });
-                                                              }
-                                                            },
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(100),
-                                                                color: appColor,
-                                                              ),
-                                                              padding: EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 5),
-                                                              child: Icon(
-                                                                snapshot.data![index].fav.toString() == "true" ? Icons.favorite : Icons.favorite_border,
-                                                                color: appColorTwo,
-                                                              ),
+                                                        ],
+                                                      ),
+                                                      Text(
+                                                        "${snapshot.data![index].price}" + translate("store.bound"),
+                                                        style: GoogleFonts.cairo(
+                                                          fontWeight: FontWeight.bold,
+                                                          color: appColor,
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Icon(Icons.person, color: appColor),
+                                                          SizedBox(
+                                                              width: width * 0.5,
+                                                              child: Text(
+                                                                "${snapshot.data![index].marketName.toString()}",
+                                                                style: GoogleFonts.cairo(
+                                                                  color: Colors.grey,
+                                                                ),
+                                                              )),
+                                                        ],
+                                                      ),
+                                                      snapshot.data![index].rate_value.toString() != "null" ? reView(int.parse(snapshot.data![index].rate_value.toString()), context) : SizedBox(),
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.location_pin,
+                                                            color: appColor,
+                                                            size: width * 0.05,
+                                                          ),
+                                                          Text(
+                                                            "${snapshot.data![index].countryName}",
+                                                            style: GoogleFonts.cairo(
+                                                              color: Colors.grey,
                                                             ),
                                                           ),
                                                         ],
                                                       ),
-                                                    ),
-                                                  ],
+                                                      SizedBox(height: 8),
+                                                      Align(
+                                                        alignment: Alignment.bottomCenter,
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                          children: [
+                                                            GestureDetector(
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(100),
+                                                                  color: appColor,
+                                                                ),
+                                                                padding: EdgeInsets.only(right: 10, left: 10, top: 3, bottom: 3),
+                                                                child: Text(
+                                                                  translate("store.contact_with_seller"),
+                                                                  style: GoogleFonts.cairo(color: appColorTwo, fontWeight: FontWeight.bold),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: width * 0.01,
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () async {
+                                                                if (Constant.token == null || Constant.token.toString() == "null" || Constant.token.toString() == "") {
+                                                                  SmallWidgets.shouldBeRegister(context);
+                                                                } else {
+                                                                  await favProvider
+                                                                      .addToFavourite(
+                                                                          productID: "${snapshot.data![index].productId}",
+                                                                          context: context,
+                                                                          favOrDis: snapshot.data![index].fav.toString().trim() == "true" ? "dis" : "fav")
+                                                                      .then((value) {
+                                                                    if (snapshot.data![index].fav.toString().trim() == "true") {
+                                                                      setState(() {
+                                                                        snapshot.data![index].fav = "false";
+                                                                      });
+                                                                    } else {
+                                                                      setState(() {
+                                                                        snapshot.data![index].fav = "true";
+                                                                      });
+                                                                    }
+                                                                  });
+                                                                }
+                                                              },
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(100),
+                                                                  color: appColor,
+                                                                ),
+                                                                padding: EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 5),
+                                                                child: Icon(
+                                                                  snapshot.data![index].fav.toString() == "true" ? Icons.favorite : Icons.favorite_border,
+                                                                  color: appColorTwo,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ],

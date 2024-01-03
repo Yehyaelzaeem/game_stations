@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import '../core/shared_preference/shared_preference.dart';
 import '../helper/showtoast.dart';
 import '../models/Constant.dart';
 import '../models/sliderModel.dart';
@@ -18,6 +19,15 @@ class ChooseCountryPage extends StatefulWidget {
 }
 
 class _ChooseCountryPageState extends State<ChooseCountryPage> {
+  @override
+  void initState() {
+    l();
+    // TODO: implement initState
+    super.initState();
+  }
+  l()async{
+    var res =await CacheHelper.saveDate(key: 'country', value: country);
+  }
   int _index = 0;
   @override
   Widget build(BuildContext context) {
@@ -123,7 +133,8 @@ class _ChooseCountryPageState extends State<ChooseCountryPage> {
   String countryImage = "";
   Widget s(int index, double width, double height, String title, String image, String id) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async{
+        await CacheHelper.saveDate(key: 'isLog', value: true);
         setState(() {
           _index = index;
           country = id;

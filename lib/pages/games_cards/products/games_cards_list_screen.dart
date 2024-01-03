@@ -12,6 +12,7 @@ class GamesCardsListScreen extends StatelessWidget {
   static const routeName = "/games_card_list_screen";
   @override
   Widget build(BuildContext context) {
+
     GameCardCategoryModel model = ModalRoute.of(context)!.settings.arguments as GameCardCategoryModel;
     return FutureBuilder<void>(
       future: Provider.of<GameCardProvider>(context, listen: false).fetchData(model.id!),

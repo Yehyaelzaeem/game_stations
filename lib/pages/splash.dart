@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:provider/provider.dart';
 
+import '../core/shared_preference/shared_preference.dart';
 import '../helper/showtoast.dart';
 import '../models/Constant.dart';
 import '../repository/categories.dart';
@@ -35,25 +37,31 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     });
   }
 
-  final splashDelay = 5;
+  final splashDelay = 2550;
   _loadWidget() async {
-    try {
-      await getSlider();
-      await getFreeAds();
-    } catch (e) {
-      print(e.toString());
-    }
-    var _duration = Duration(seconds: splashDelay);
+    // try {
+    //   Provider.of<CategoriesProvider>(context, listen: false).getSlider();
+    // } catch (e) {
+    //   print(e.toString());
+    // }
+    var _duration = Duration(milliseconds: splashDelay);
+    Provider.of<CategoriesProvider>(context, listen: false).getSlider();
     return Timer(_duration, navigationPage);
   }
 
-  void navigationPage() {
-     if(Constant.token!=null){
-    if (Platform.isIOS) FlutterAppBadger.removeBadge();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Constant.token == null ?
-    SliderPage() : RootPages()));
-    // SliderPage() : RootPages()));
-    }
+
+   navigationPage() async{
+     var res =await CacheHelper.getDate(key: 'country');
+     Constant.country = res;
+     if(res !=null){
+       if (Platform.isIOS) FlutterAppBadger.removeBadge();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) =>
+   RootPages()));
+     }
+     else{
+       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) =>
+       SliderPage() ));
+     }
   }
 
   @override

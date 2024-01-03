@@ -24,46 +24,54 @@ Widget globalHeader(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
+
           if (showCart)
-            Stack(
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(CartScreen.routeName);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(
-                        Icons.shopping_cart,
-                        color: appColor,
-                        size: 20,
-                      ),
-                    )),
-                Positioned(
-                    child: Container(
-                  width: 14,
-                  height: 14,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFEAC43D),
-                    borderRadius: BorderRadius.circular(200),
+            InkWell(
+              onTap: (){
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Icon(
+                      Icons.shopping_cart,
+                      color: appColor,
+                      size: 20,
+                    ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: FittedBox(
-                      child: Text(
-                        cartProvider.products.length.toString(),
-                        style: TextStyle(
-                          color: Colors.black,
+                  Positioned(
+                      child: Container(
+                    width: 14,
+                    height: 14,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFEAC43D),
+                      borderRadius: BorderRadius.circular(200),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: FittedBox(
+                        child: Text(
+                          cartProvider.products.length.toString(),
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ))
-              ],
+                  ))
+                ],
+              ),
             ),
-          Text(
-            '$title',
-            style: GoogleFonts.cairo(color: appColor, letterSpacing: 0.004200000017881393, fontWeight: FontWeight.w700, fontSize: width * 0.04 + 2),
+          Container(
+            width: MediaQuery.of(context).size.width*0.5,
+            child: Text(
+              '$title',
+              style: GoogleFonts.cairo(color: appColor, letterSpacing: 0.004200000017881393, fontWeight: FontWeight.w700, fontSize: width * 0.04 + 2),
+               textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
           ),
           Row(
             children: [
@@ -89,7 +97,8 @@ Widget globalHeader(
                       color: appColor,
                     ),
                   ),
-                  onTap: () { Navigator.of(context).pop();
+                  onTap: () {
+                    Navigator.of(context).pop();
                   }),
             ],
           )

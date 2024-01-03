@@ -4,6 +4,7 @@ import 'package:introduction_slider/source/presentation/widgets/background_decor
 import 'package:introduction_slider/source/presentation/widgets/buttons.dart';
 import 'package:introduction_slider/source/presentation/widgets/dot_indicator.dart';
 import 'package:introduction_slider/source/presentation/widgets/introduction_slider_item.dart';
+import 'package:provider/provider.dart';
 import '../helper/showtoast.dart';
 import '../models/silde_model.dart';
 import '../models/sliderModel.dart';
@@ -78,7 +79,7 @@ class _SliderPageState extends State<SliderPage> {
         .push(MaterialPageRoute(builder: (context) => ChooseCountryPage()));
   }
   _loading()async{
-    await getSlider();
+    Provider.of<CategoriesProvider>(context, listen: false).getSlider();
     await getFreeAds();
   }
   int i =0;

@@ -4,12 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:global_configuration/global_configuration.dart';
+import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
 import '../helper/showtoast.dart';
 import '../models/Constant.dart';
 import '../models/sliderModel.dart';
 
 class EditProductProvider with ChangeNotifier {
+
   Future updateImage({
     String? product_id,
     List<SliderModel>? images,

@@ -20,8 +20,8 @@ class GameCardProvider with ChangeNotifier {
     _isLoading = true;
     _items.clear();
 
-    notifyListeners();
-    final String url = "${GlobalConfiguration().getString('api_base_url')}product_games/$category_id";
+    // notifyListeners();
+    final String url = "${GlobalConfiguration().getString('api_base_url_dev')}product_games/$category_id";
     debugPrint("ESSAMresponseJSON==================>:$url");
     var response = await http.get(Uri.parse(url), headers: {
       "Accept": "application/json",

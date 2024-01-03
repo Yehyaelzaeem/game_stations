@@ -7,22 +7,24 @@ import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../elements/widget_store_header.dart';
+import '../../../helper/showtoast.dart';
+import '../../root_pages.dart';
 import '../cart/cart_provider.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
 class InAppWebViewExampleScreen extends StatefulWidget {
-  final String? url;
-  InAppWebViewExampleScreen({this.url});
+  final String url;
+  InAppWebViewExampleScreen({required this.url});
   @override
   _InAppWebViewExampleScreenState createState() => new _InAppWebViewExampleScreenState();
 }
 
 class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
-  String url = "";
+  String url1 = "";
   double progress = 0;
 
   @override
   void initState() {
-  /////  // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+   if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     super.initState();
   }
 
@@ -74,7 +76,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       //         shouldOverrideUrlLoading: (controller, shouldOverrideUrlLoadingRequest) async {
       //           // var url = shouldOverrideUrlLoadingRequest.url;
       //           // var uri = Uri.parse(url);
-
+      //
       //           // if (!["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {
       //           //   if (await canLaunch(url)) {
       //           //     // Launch the App
@@ -85,7 +87,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       //           //     return ShouldOverrideUrlLoadingAction.CANCEL;
       //           //   }
       //           // }
-
+      //
       //           return ShouldOverrideUrlLoadingAction.ALLOW;
       //         },
       //         onLoadStop: (InAppWebViewController controller, String url) async {
@@ -105,7 +107,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       //           if (url.contains('success') || url.contains("order_success")) {
       //             log("true");
       //             cartProvider.removeAll();
-
+      //
       //             showToast("Order submitted successfully");
       //             Navigator.of(context).pushAndRemoveUntil(
       //               MaterialPageRoute(builder: (context) => RootPages()),
@@ -120,40 +122,40 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       //   ),
       // ),
 ///////////////////////////////
-      // Expanded(
-      //   child: Container(
-      //     decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-      //     child: WebView(
-      //       javascriptMode: JavascriptMode.unrestricted,
-      //       initialUrl: "${widget.url}",
-      //       initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
-      //       onWebViewCreated: (WebViewController webViewController) {},
-      //       onPageFinished: (url) {},
-      //       gestureNavigationEnabled: true,
-      //       navigationDelegate: (NavigationRequest navigation) {
-      //         if (url.contains('success') || url.contains("order_success")) {
-      //           log("true");
-      //           cartProvider.removeAll();
-      //
-      //           showToast("Order submitted successfully");
-      //           Navigator.of(context).pushAndRemoveUntil(
-      //             MaterialPageRoute(builder: (context) => RootPages()),
-      //             (Route<dynamic> route) => false,
-      //           );
-      //         } else {
-      //           setState(() {
-      //             this.url = url;
-      //           });
-      //         }
-      //         return NavigationDecision.navigate;
-      //       },
-      //       onPageStarted: (url) {
-      //         this.url = url;
-      //         setState(() {});
-      //       },
-      //     ),
-      //   ),
-      // ),
+      Expanded(
+        child: Container(
+          decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+          child: WebView(
+            javascriptMode: JavascriptMode.unrestricted,
+            initialUrl: widget.url,
+            initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
+            onWebViewCreated: (WebViewController webViewController) {},
+            onPageFinished: (url) {},
+            gestureNavigationEnabled: true,
+            navigationDelegate: (NavigationRequest navigation) {
+              if (widget.url.contains('success') || widget.url.contains("order_success")) {
+                log("true");
+                cartProvider.removeAll();
+
+                showToast("Order submitted successfully");
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => RootPages()),
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                setState(() {
+                  // this.url = url;
+                });
+              }
+              return NavigationDecision.navigate;
+            },
+            onPageStarted: (url) {
+              // this.url = url;
+              setState(() {});
+            },
+          ),
+        ),
+      ),
 /////////////////////////////
       // ButtonBar(
       //   alignment: MainAxisAlignment.center,

@@ -9,10 +9,15 @@ import 'package:gamestation/pages/games_cards/screens/orders_screen.dart';
 import 'package:gamestation/pages/games_cards/sub_categories/games_cards_sub_categories.dart';
 import 'package:gamestation/pages/home.dart';
 import 'package:gamestation/pages/slider.dart';
+import 'package:gamestation/pages/user/add_games_club.dart';
+import 'package:gamestation/pages/user/edit_ads.dart';
+import 'package:gamestation/pages/user/edit_game_club.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'app_config/providers.dart';
+import 'core/network/dio.dart';
+import 'core/shared_preference/shared_preference.dart';
 import 'helper/checkUser.dart';
 import 'models/Constant.dart';
 import 'pages/games_cards/cart/cart_screen.dart';
@@ -25,6 +30,8 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await CacheHelper.init();
+  await DioHelper.init();
   await GlobalConfiguration().loadFromAsset("configurations");
   await checkUser();
   await checkUser();
@@ -68,16 +75,16 @@ class MyApp extends StatelessWidget {
               GamesCardsListScreen.routeName: (context) => GamesCardsListScreen(),
               CartScreen.routeName: (context) => CartScreen(),
               OrderScreen.routeName: (context) => OrderScreen(),
-              GameCardDetailsScreen.routeName: (context) => GameCardDetailsScreen(),
+              // GameCardDetailsScreen.routeName: (context) => GameCardDetailsScreen(),
             },
           home:
-          // Home(),
-          SliderPage(),
-            // home: this.check != null
-            //     ? RootPages(
-            //         checkPage: this.check,
-            //       )
-            //     : SplashPage()
+          SplashPage(),
+          // SplashPage(),
+          //   home: this.check != null
+          //       ? RootPages(
+          //           checkPage: this.check,
+          //         )
+          //       : SplashPage()
             // SplashScreen(
             //   seconds: 5,
             //   navigateAfterSeconds:Constant.token==null?
