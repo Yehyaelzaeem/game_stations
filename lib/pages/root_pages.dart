@@ -150,6 +150,7 @@ class _RootPagesState extends State<RootPages> {
                           ),
                           GestureDetector(
                             onTap: () {
+                              print('sdfsdfsd');
                               // Constant.enableFilter.value = !Constant.enableFilter.value;
                               if (Constant.enableFilter.value != true) {
                                 Constant.enableFilter.value = true;
@@ -166,9 +167,7 @@ class _RootPagesState extends State<RootPages> {
                         ],
                       ),
                     )),
-                SizedBox(
-                  width: 1,
-                ),
+
 
                 InkWell(
                   onTap: (){

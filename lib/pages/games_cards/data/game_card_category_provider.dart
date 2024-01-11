@@ -86,7 +86,7 @@ class GameCardCategoryProvider with ChangeNotifier {
         print("------> key->$key: value->$value");
       });
 
-      dio.options.baseUrl = "https://gamestationapp.com/api/";
+      dio.options.baseUrl = "https://dev.gamestationapp.com/api/";
       Response response = await dio.post(
         "products_search",
         data: params,

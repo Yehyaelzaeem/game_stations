@@ -76,102 +76,105 @@ class CardItem extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  SizedBox(height: 10,),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SizedBox(width: MediaQuery.of(context).size.width*0.3),
-                      Text(
-                        '1',
-                        style: GoogleFonts.cairo(
-                          fontSize: 19.0,
-                          color: const Color(0xFF000081),
-                          letterSpacing: 0.005320000022649765,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                     /*
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              cartProvider.addQty(widget.product);
-                              setState(() {});
-                            },
-                            child: Container(
-                              width: 27.0,
-                              height: 27.0,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
-                                color: Colors.white,
-                                border: Border.all(
-                                  width: 1.0,
-                                  color: const Color(0xFF46468F),
-                                ),
-                              ),
-                              child: Text(
-                                '+',
-                                style: GoogleFonts.cairo(
-                                  fontSize: 15.0,
-                                  color: const Color(0xFF000081),
-                                  letterSpacing: 0.004200000017881393,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            '${widget.product.count}',
-                            style: GoogleFonts.cairo(
-                              fontSize: 19.0,
-                              color: const Color(0xFF000081),
-                              letterSpacing: 0.005320000022649765,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              cartProvider.removeQty(widget.product);
-                            },
-                            child: Container(
-                              width: 27.0,
-                              height: 27.0,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
-                                color: Colors.white,
-                                border: Border.all(
-                                  width: 1.0,
-                                  color: const Color(0xFF46468F),
-                                ),
-                              ),
-                              child: Text(
-                                '-',
-                                style: GoogleFonts.cairo(
-                                  fontSize: 15.0,
-                                  color: const Color(0xFF000081),
-                                  letterSpacing: 0.004200000017881393,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),*/
+                      SizedBox(width: MediaQuery.of(context).size.width*0.1),
+                      // Text(
+                      //   '1',
+                      //   style: GoogleFonts.cairo(
+                      //     fontSize: 19.0,
+                      //     color: const Color(0xFF000081),
+                      //     letterSpacing: 0.005320000022649765,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      //   textAlign: TextAlign.center,
+                      // ),
+                     StatefulBuilder(builder: (context,setState){
+                       return  Row(
+                         mainAxisSize: MainAxisSize.min,
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         crossAxisAlignment: CrossAxisAlignment.center,
+                         children: [
+                           GestureDetector(
+                             onTap: () {
+                               cartProvider.addQty(product);
+                               setState(() {});
+                             },
+                             child: Container(
+                               width: 27.0,
+                               height: 27.0,
+                               alignment: Alignment.center,
+                               decoration: BoxDecoration(
+                                 borderRadius: BorderRadius.circular(5.0),
+                                 color: Colors.white,
+                                 border: Border.all(
+                                   width: 1.0,
+                                   color: const Color(0xFF46468F),
+                                 ),
+                               ),
+                               child: Text(
+                                 '+',
+                                 style: GoogleFonts.cairo(
+                                   fontSize: 15.0,
+                                   color: const Color(0xFF000081),
+                                   letterSpacing: 0.004200000017881393,
+                                   fontWeight: FontWeight.w700,
+                                 ),
+                                 textAlign: TextAlign.center,
+                               ),
+                             ),
+                           ),
+                           SizedBox(
+                             width: 15,
+                           ),
+                           Text(
+                             '${product.count}',
+                             style: GoogleFonts.cairo(
+                               fontSize: 19.0,
+                               color: const Color(0xFF000081),
+                               letterSpacing: 0.005320000022649765,
+                               fontWeight: FontWeight.w600,
+                             ),
+                             textAlign: TextAlign.center,
+                           ),
+                           SizedBox(
+                             width: 15,
+                           ),
+                           GestureDetector(
+                             onTap: () {
+                               cartProvider.removeQty(product);
+                             },
+                             child: Container(
+                               width: 27.0,
+                               height: 27.0,
+                               alignment: Alignment.center,
+                               decoration: BoxDecoration(
+                                 borderRadius: BorderRadius.circular(5.0),
+                                 color: Colors.white,
+                                 border: Border.all(
+                                   width: 1.0,
+                                   color: const Color(0xFF46468F),
+                                 ),
+                               ),
+                               child: Text(
+                                 '-',
+                                 style: GoogleFonts.cairo(
+                                   fontSize: 15.0,
+                                   color: const Color(0xFF000081),
+                                   letterSpacing: 0.004200000017881393,
+                                   fontWeight: FontWeight.w700,
+                                 ),
+                                 textAlign: TextAlign.center,
+                               ),
+                             ),
+                           )
+                         ],
+                       );
+
+                     }),
                       Spacer(),
                       GestureDetector(
                         onTap: () {

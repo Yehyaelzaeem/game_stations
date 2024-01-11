@@ -28,7 +28,7 @@ import '../models/basic_response.dart';
 import '../models/sliderModel.dart';
 import '../pages/root_pages.dart';
 
-const String baseUrl = "https://gamestationapp.com/api/";
+const String baseUrl = "https://dev.gamestationapp.com/api/";
 
 class UserAuth extends ChangeNotifier {
   String? lat, lng;

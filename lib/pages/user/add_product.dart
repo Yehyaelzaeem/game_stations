@@ -1,12 +1,9 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show FilteringTextInputFormatter, TextInputFormatter, rootBundle;
-// import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../elements/PermissionDeniedWidget.dart';
 import '../../helper/getlocation.dart';
@@ -70,7 +67,7 @@ class _AddProductPageState extends State<AddProductPage> {
                     child: Column(
                       children: [
                         Container(
-                            height: height * 0.7 - 30,
+                            height: height * 0.75 ,
                             child: Scrollbar(
                               thickness: width * 0.02,
                               thumbVisibility: true,
@@ -205,9 +202,6 @@ class _AddProductPageState extends State<AddProductPage> {
                                                 style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.black54),
                                               ),
                                             ],
-                                          ),
-                                          SizedBox(
-                                            height: height * 0.02,
                                           ),
                                           Container(
                                             width: width * 0.9,
@@ -571,10 +565,10 @@ class _AddProductPageState extends State<AddProductPage> {
                                             print('ya yehya el images length = : ${images!.length}*************************');
                                             value.isLoading = true;
                                             // if(Constant.subscribe==true) {
-                                              if (imageFileUploadOne != null ||
-                                                  imageFileUploadTwo != null ||
+                                              if (imageFileUploadOne != null || imageFileUploadTwo != null ||
                                                   descriptionTextController.text.toString().trim().isNotEmpty && priceTextController.text.toString().trim().isNotEmpty &&
-                                                      titleTextController.text.toString().trim().isNotEmpty) {
+                                                      titleTextController.text.toString().trim().isNotEmpty)
+                                              {
                                                 List<File> images_file = [];
                                                 if (images != null) {
                                                   for (var asset in images!) {
@@ -599,8 +593,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                                   }
                                                 }
                                                 print('------> addProduct');
-                                                await categoryProvider!
-                                                    .addProduct(
+                                                await categoryProvider!.addProduct(
                                                     context: context,
                                                     country: "${Constant
                                                         .country}",
@@ -623,9 +616,9 @@ class _AddProductPageState extends State<AddProductPage> {
                                                 value.isLoading = false;
                                               }
                                             // }
-                                            else {
-                                              showToast(translate("toast.must_be_subscribe"));
-                                            }
+                                            // else {
+                                            //   showToast(translate("toast.must_be_subscribe"));
+                                            // }
                                           },
                                           child: value.isLoading
                                               ? Center(
@@ -645,6 +638,9 @@ class _AddProductPageState extends State<AddProductPage> {
                                         ),
                                       );
                                     }),
+                                    SizedBox(
+                                      height: height * 0.04,
+                                    ),
                                   ],
                                 ),
                               ),

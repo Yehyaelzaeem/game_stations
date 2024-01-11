@@ -210,7 +210,8 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
                 SizedBox(height: 12),
               ]);
-            } else if (snapshot.hasError) {
+            }
+            else if (snapshot.hasError) {
               return Center(
                 child: Text("${snapshot.error}"),
               );

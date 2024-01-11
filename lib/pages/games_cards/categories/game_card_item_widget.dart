@@ -44,6 +44,7 @@ class GameCardItemWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             Stack(
               children: [
                 ClipRRect(

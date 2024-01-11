@@ -43,17 +43,11 @@ dependencies:
   flutter_html:
   webview_flutter: ^3.0.0
   path_provider: ^2.1.1
-#  splashscreen:
-#  flutter_swiper:
-#  flutter_absolute_path: ^1.0.6
-# multiple_images_picker: ^1.0.1
-#  flutter_absolute_path:
-#    git:
-#      url: https://github.com/ValeriusGC/flutter_absolute_path.git
   intro_slider: ^4.2.1
   animated_text_kit: ^4.2.1
   image_picker: ^1.0.5
   dio: ^5.4.0
+  device_preview:
   google_maps_flutter: ^2.5.0
   geolocator: ^10.1.0
   geocoding: ^2.1.1
@@ -80,11 +74,6 @@ dependencies:
 
 
 dev_dependencies:
-#  pdfx:
-#    git:
-#      url: 'https://github.com/ScerIO/packages.flutter'
-#      ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'
-#      path: packages/pdfx
   flutter_test:
     sdk: flutter
   flutter_localizations:

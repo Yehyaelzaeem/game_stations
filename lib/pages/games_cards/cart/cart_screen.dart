@@ -1,15 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import '../../../core/network/apis.dart';
-import '../../../core/network/dio.dart';
 import '../../../elements/widget_store_header.dart';
 import '../../../helper/showtoast.dart';
 import '../../../models/Constant.dart';
@@ -34,9 +30,12 @@ class CartScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             SizedBox(height: 32),
+
             globalHeader(context, translate("store.cart")),
             SizedBox(height: 8),
+
             ...cartProvider.products.map((e) {
               return CardItem(e);
             }).toList(),
@@ -145,8 +144,6 @@ class _CompletePaymentButtonState extends State<CompletePaymentButton> {
         loading = true;
         setState(() {});
         String url = "";
-
-
           Map<String, dynamic> params = {};
           for (int i = 0; i < cartProvider.products.length; i++) {
             if (cartProvider.products[i].count! > 0) {
@@ -157,7 +154,6 @@ class _CompletePaymentButtonState extends State<CompletePaymentButton> {
           params.forEach((key, value) {
             print("------> key->$key: value->$value");
           });
-
         var headers = {
           'x-api-key': 'mwDA9w',
           'Content-Language': 'ar',
@@ -175,7 +171,6 @@ class _CompletePaymentButtonState extends State<CompletePaymentButton> {
           ),
           data: data,
         );
-
         if (response.statusCode == 200) {
           showToast('Success');
           print(json.encode(response.data));
@@ -184,7 +179,6 @@ class _CompletePaymentButtonState extends State<CompletePaymentButton> {
           showToast(response.statusMessage.toString());
           print(response.statusMessage);
         }
-
            url = response.data['payment_url'];
           print('------>response  ${response.data}');
           print('------>url  $url');

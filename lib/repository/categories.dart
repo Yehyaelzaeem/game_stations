@@ -198,8 +198,8 @@ class CategoriesProvider extends ChangeNotifier {
     });
     String responseBody = response.body;
     var responseJSON = json.decode(responseBody);
-    // print(url.toString());
-    // print("productsCountry${Constant.country}: " + response.body.toString());
+    print(url.toString());
+    print("productsCountry${Constant.country}: " + response.body.toString());
     // print(Constant.token.toString());
     List<ProductDetails> productDetailsList = [];
     if (response.statusCode == 200) {
@@ -230,7 +230,8 @@ class CategoriesProvider extends ChangeNotifier {
             if (city.toString().trim().toLowerCase() == data['city_name'].toString().trim().toLowerCase()) {
               productsList.add(thisList);
             }
-          } else {
+          }
+          else {
             if (type.toString().trim().toLowerCase() == data['type'].toString().trim().toLowerCase() && city.toString().trim().toLowerCase() == data['city_name'].toString().trim().toLowerCase()) {
               productsList.add(thisList);
             }
@@ -239,6 +240,8 @@ class CategoriesProvider extends ChangeNotifier {
           productsList.add(thisList);
         }
       }
+      print(productsList.length);
+      print(productsList.toString());
 
       return productsList;
     }

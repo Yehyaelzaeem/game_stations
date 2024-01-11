@@ -54,7 +54,8 @@ class _SearchPageState extends State<SearchPage> {
       ),
       backgroundColor: backGround,
       body: widget.word == "filter"
-          ? FutureBuilder(
+          ?
+      FutureBuilder(
               future: categoryProvider.search(
                   type:
                       'null', // "${widget.type.toString().replaceAll("null", "").toString().trim()}",
@@ -197,8 +198,7 @@ class _SearchPageState extends State<SearchPage> {
                                                       ),
                                                       Text(
                                                         "${snapshot.data![index].price}" +
-                                                            translate(
-                                                                "store.bound"),
+                                                            translate("store.bound"),
                                                         style:
                                                             GoogleFonts.cairo(
                                                           fontWeight:
@@ -460,17 +460,24 @@ class _SearchPageState extends State<SearchPage> {
                                                     children: [
                                                       Column(
                                                         children: [
-                                                          Text(
-                                                            "${snapshot.data![index].productName}",
-                                                            style: GoogleFonts.cairo(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontSize:
-                                                                    width *
-                                                                        0.04),
+                                                          Container(
+                                                            width:MediaQuery.of(context).size.width*0.6,
+                                                            child: Expanded(
+                                                              child: Text(
+                                                                "${snapshot.data![index].productName}",
+                                                                style: GoogleFonts.cairo(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        Colors.grey,
+                                                                    fontSize:
+                                                                        width *
+                                                                            0.04),
+                                                                maxLines: 2,
+                                                                overflow: TextOverflow.ellipsis,
+                                                              ),
+                                                            ),
                                                           ),
                                                         ],
                                                       ),

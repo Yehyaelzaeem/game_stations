@@ -1,15 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gamestation/pages/store/products.dart';
 import 'package:provider/provider.dart';
-// import 'package:gamestation_app/pages/store/products.dart';
-
-import '../helper/device_validation.dart';
-import '../helper/showtoast.dart';
 import '../models/Categories.dart';
-import '../models/game_card_category_model.dart';
-import 'games_cards/categories/games_cards_main_categories.dart';
 import 'games_cards/data/game_card_category_provider.dart';
 import 'games_cards/products/games_cards_list_screen.dart';
 import 'games_cards/sub_categories/games_cards_sub_categories.dart';
@@ -23,27 +16,35 @@ class SingleCategoryItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     // Provider.of<GameCardCategoryProvider>(context, listen: false).fetchData();
+   Provider.of<GameCardCategoryProvider>(context, listen: false).fetchData();
 
 
-    print('===SingleCategoryItemWidget==');
-    print('===category ${category.name }:${category.id}==');
+
     return
       Consumer<GameCardCategoryProvider>(
         builder: (BuildContext context, value, child) {
           return  GestureDetector(
             onTap: () {
               if (category.id == "0") {
+              for(var element in value.items){
+                if(element.id==25){
+                  if (element.subCategoryList!=null) {
+                    Navigator.of(context).pushNamed(GamesCardSubCategoriesScreen.routeName, arguments: element);
+                  }
+                  else {
+                    Navigator.of(context).pushNamed(GamesCardsListScreen.routeName, arguments: element);
+                  }
+                  break;
+                }
+              }
+              value.items.forEach((element) {
+
+              });
                 // if(!canView) {
                 //   showToast("Coming Soon");
                 //   return;
                 // }
-                if (value.items[5].subCategoryList!=null) {
-                   Navigator.of(context).pushNamed(GamesCardSubCategoriesScreen.routeName, arguments: value.items[5]);
-                }
-                else {
-                  Navigator.of(context).pushNamed(GamesCardsListScreen.routeName, arguments: value.items[5]);
-                }
+
                 // Navigator.of(context).pushNamed(
                 //   GamesCardMainCategoriesScreen.routeName,
                 //   arguments: category.name,
