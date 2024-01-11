@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -5,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../elements/widget_store_header.dart';
+import '../../../helper/showtoast.dart';
 import '../../../models/Constant.dart';
 import '../../../models/game_card_model.dart';
 import '../cart/cart_provider.dart';
@@ -29,12 +31,16 @@ final GameCardModel gameCardModel;
               child: Column(
                 children: [
                   model.image!.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: model.image!,
-                          height: MediaQuery.of(context).size.width / 3,
-                          width: double.infinity,
-                          fit: BoxFit.fitHeight,
-                        )
+                      ? Container(
+                        width:MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height*0.3,
+                        child: CachedNetworkImage(
+                            imageUrl: model.image!,
+                            height: MediaQuery.of(context).size.width / 3,
+                            width:  MediaQuery.of(context).size.width,
+                            fit: BoxFit.cover,
+                          ),
+                      )
                       : Image.asset(
                           'assets/images/s.png',
                           height: MediaQuery.of(context).size.width / 3,
@@ -43,37 +49,85 @@ final GameCardModel gameCardModel;
                         ),
                   SizedBox(width: 18),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left:20,right: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
+                        // DefaultTextStyle(
+                        //   style: GoogleFonts.poppins(
+                        //     fontSize: 15,
+                        //     fontWeight: FontWeight.bold,
+                        //     color: appColor,
+                        //   ),
+                        //   textAlign: TextAlign.center,
+                        //   child: AnimatedTextKit(
+                        //     animatedTexts: [
+                        //       WavyAnimatedText('${model.name!}'),
+                        //     ],
+                        //     isRepeatingAnimation: true,
+                        //     onTap: () {
+                        //       print("Tap Event");
+                        //     },
+                        //   ),
+                        // ),
                         Text(
                           model.name!,
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
+                          style:
+                          GoogleFonts.poppins(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
                           locale: Locale(Constant.lang!, ""),
-                          textAlign: TextAlign.start,
+                          textAlign: TextAlign.center,
                         ),
+                        SizedBox(height: 5),
+
                         Text(
                           model.details!,
                           style: GoogleFonts.poppins(
-                            fontSize: 20,
+                            fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: Colors.black,
+                            color: Colors.black87,
                           ),
                           locale: Locale(Constant.lang!, ""),
                           textAlign: TextAlign.start,
                         ),
+                        // SizedBox(
+                        //   width: 250.0,
+                        //   child: DefaultTextStyle(
+                        //     style:  GoogleFonts.cairo(
+                        //       fontSize: 15.0,
+                        //       fontWeight: FontWeight.w700,
+                        //       color: const Color(0xFF000081),
+                        //       letterSpacing: 0.0047600000202655795,
+                        //     ),
+                        //     child:
+                        //     AnimatedTextKit(
+                        //       pause: Duration(seconds: 3),
+                        //       animatedTexts: [
+                        //
+                        //         WavyAnimatedText('${model.price} L.E'),
+                        //         // TyperAnimatedText('${model.price} L.E',speed: Duration(milliseconds: 40)),
+                        //         // TypewriterAnimatedText('${model.price} L.E'),
+                        //
+                        //       ],
+                        //       isRepeatingAnimation: true,
+                        //       onTap: () {
+                        //         print("Tap Event");
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
                         Text(
                           '${model.price} L.E',
-                          style: GoogleFonts.cairo(
-                            fontSize: 16.0,
+                          style:
+                          GoogleFonts.cairo(
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.w700,
                             color: const Color(0xFF000081),
                             letterSpacing: 0.0047600000202655795,
                           ),
@@ -83,7 +137,7 @@ final GameCardModel gameCardModel;
                         Text(
                           model.sku!,
                           style: GoogleFonts.cairo(
-                            fontSize: 16.0,
+                            fontSize: 12.0,
                             color: const Color(0xFF636363),
                             height: 1.3,
                           ),
@@ -133,7 +187,7 @@ final GameCardModel gameCardModel;
                               ),
                             ),
                           ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 50),
                       ],
                     ),
                   )

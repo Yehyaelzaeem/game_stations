@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import '../../elements/PermissionDeniedWidget.dart';
@@ -117,29 +118,28 @@ class _ChatListPageState extends State<ChatListPage> {
                                             snapshot.data![index].saller_image.toString()
                                                 =="null"?
                                             Container(
-                                              height: height*0.06,
-                                              width: width*0.1+10,
+                                              height: 55,
+                                              width: 55,
                                               decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage("assets/images/home.png"),
-                                                  fit: BoxFit.cover,
-                                                ),
+                                                color: Colors.white,
                                                 borderRadius: BorderRadius.circular(50),
-                                                border: Border.all(width: 1),
+                                                border: Border.all(width: 1,color: Colors.grey.shade400),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                                  child: Image.asset("assets/images/load50.gif",
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
                                               ),
                                             ):  Container(
-                                              child:  FadeInImage(
-                                                image:
-                                                NetworkImage("${snapshot.data![index].saller_image}"),
-                                                placeholder: AssetImage(
-                                                    "assets/images/placeholder.jpg"),
-                                                imageErrorBuilder:
-                                                    (context, error, stackTrace) {
-                                                  return Image.asset(
-                                                      'assets/images/error.jpg',
-                                                      fit: BoxFit.fitWidth);
-                                                },
-                                                fit: BoxFit.fitWidth,
+                                              child:
+                                              CachedNetworkImage(
+                                                imageUrl: "${snapshot.data![index].saller_image}",
+                                                placeholder: (context, url) => new CircularProgressIndicator(),
+                                                errorWidget: (context, url, error) => new Icon(Icons.error),
                                               ),
                                               height: height*0.06,
                                               width: width*0.1+10,

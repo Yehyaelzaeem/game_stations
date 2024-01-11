@@ -29,6 +29,7 @@ class GamesCardsListScreen extends StatelessWidget {
             children: [
               SizedBox(height: 38),
               globalHeader(context, model.name!, showCart: true),
+
               if (model.subCategoryList!.isEmpty) SizedBox(height: 40),
               Expanded(
                 child: Consumer<GameCardProvider>(builder: (context, snapshot, child) {

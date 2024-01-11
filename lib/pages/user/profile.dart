@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-// import 'package:flutter_translate/global.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../elements/PermissionDeniedWidget.dart';
 import '../../elements/fullView.dart';
 import '../../elements/signOut.dart';
@@ -24,7 +22,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final _size = MediaQuery.of(context).size;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    // print(Constant.image.toString());
     return Scaffold(
       backgroundColor: backGround,
       body: Constant.token != null && Constant.token.toString() != "null" && Constant.token.toString() != ""
@@ -87,14 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               tap: () {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyClubs()));
                               }),
-                          // drawerElement(
-                          //     icon: Icons.shopping_cart,
-                          //     title: translate("store.cart"),
-                          //     tap: () {
-                          //       // Navigator.of(context).pushNamed(PATHS.CartScreen);
-                          //       // Navigator.of(context).push(MaterialPageRoute(builder:
-                          //       //     (context)=>CartScreen()));
-                          //     }),
+
                           drawerElement(
                               icon: Icons.shopping_bag,
                               title: translate("navigation_bar.my_ads"),

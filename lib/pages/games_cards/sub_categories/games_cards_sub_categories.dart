@@ -19,9 +19,7 @@ class GamesCardSubCategoriesScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           SizedBox(height: 32),
-
           globalHeader(context, model.name!,showCart: true),
-
           SizedBox(height: 16),
           if (model.subCategoryList!.isEmpty) SizedBox(height: 40),
           if (model.subCategoryList!.isEmpty) Center(child: Text(' No Products Available')),

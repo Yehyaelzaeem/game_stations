@@ -1,18 +1,16 @@
 import 'package:eraser/eraser.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:gamestation/pages/games_cards/categories/games_cards_main_categories.dart';
-import 'package:gamestation/pages/games_cards/products/game_card_details.dart';
 import 'package:gamestation/pages/games_cards/screens/orders_screen.dart';
 import 'package:gamestation/pages/games_cards/sub_categories/games_cards_sub_categories.dart';
-import 'package:gamestation/pages/home.dart';
 import 'package:gamestation/pages/slider.dart';
-import 'package:gamestation/pages/user/add_games_club.dart';
-import 'package:gamestation/pages/user/edit_ads.dart';
-import 'package:gamestation/pages/user/edit_game_club.dart';
 import 'package:global_configuration/global_configuration.dart';
+import 'package:device_preview/device_preview.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'app_config/providers.dart';
@@ -35,11 +33,18 @@ void main() async {
   await GlobalConfiguration().loadFromAsset("configurations");
   await checkUser();
   await checkUser();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   if (Constant.lang == null || Constant.lang == "null") Constant.lang = "ar";
   var delegate = await LocalizationDelegate.create(fallbackLocale: 'en_US', supportedLocales: ['en_US', 'ar']);
   await FirebaseNotifications().setUpFirebase();
 
-  runApp(LocalizedApp(delegate, MyApp()));
+  runApp(DevicePreview(
+      enabled: false,
+      builder:(BuildContext context)=>LocalizedApp(delegate, MyApp())));
+
   Eraser.clearAllAppNotifications();
 }
 
@@ -78,8 +83,8 @@ class MyApp extends StatelessWidget {
               // GameCardDetailsScreen.routeName: (context) => GameCardDetailsScreen(),
             },
           home:
-          SplashPage(),
-          // SplashPage(),
+          // SliderPage(),
+           SplashPage(),
           //   home: this.check != null
           //       ? RootPages(
           //           checkPage: this.check,

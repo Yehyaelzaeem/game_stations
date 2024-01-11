@@ -40,26 +40,26 @@ class _ProductsPageState extends State<ProductsPage> {
     setState(() {
       showAds = true;
     });
-    // Timer(Duration(seconds: 40), () {
-    //   if (showAds == true) {
-    //     if (Constant.subscribe != true) {
-    //       getPopUp().then((value) async {
-    //         if (value != null && value.image.toString().trim() != "null") {
-    //           WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //             await showAlertDialogPopUp(
-    //               context,
-    //               img: value.image.toString(),
-    //               link: value.link.toString(),
-    //             );
-    //             setState(() {
-    //               showAds = false;
-    //             });
-    //           });
-    //         }
-    //       });
-    //     }
-    //   }
-    // });
+    Timer(Duration(seconds: 40), () {
+      if (showAds == true) {
+        if (Constant.subscribe != true) {
+          getPopUp().then((value) async {
+            if (value != null && value.image.toString().trim() != "null") {
+              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                await showAlertDialogPopUp(
+                  context,
+                  img: value.image.toString(),
+                  link: value.link.toString(),
+                );
+                setState(() {
+                  showAds = false;
+                });
+              });
+            }
+          });
+        }
+      }
+    });
     super.initState();
   }
 

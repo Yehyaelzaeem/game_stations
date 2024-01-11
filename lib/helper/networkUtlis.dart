@@ -13,7 +13,7 @@ class NetworkUtil {
   Future<Response> get(String url, Map? headers) async {
     var response;
     try {
-      dio.options.baseUrl = "https://gamestationapp.com/api/";
+      dio.options.baseUrl = "https://dev.gamestationapp.com/api/";
       response = await dio.get(url,
           options: Options(
             headers: {
@@ -35,7 +35,7 @@ class NetworkUtil {
 
   Future<Response> post(String url, {Map? headers, FormData? body, encoding}) async {
     var response;
-    dio.options.baseUrl = "https://gamestationapp.com/api/";
+    dio.options.baseUrl = "https://dev.gamestationapp.com/api/";
     try {
       response = await dio.post(
         url,

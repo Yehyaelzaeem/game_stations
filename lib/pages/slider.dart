@@ -142,7 +142,7 @@ class _SliderPageState extends State<SliderPage> {
                        // });
                      },
                      child: Text('SKIP', style: GoogleFonts.cairo(
-                         fontWeight: FontWeight.bold, color: colorWhite, fontSize: 25),
+                         fontWeight: FontWeight.bold, color: colorWhite, fontSize: 20),
                      ),
                    ))
              ],

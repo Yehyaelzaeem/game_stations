@@ -26,10 +26,6 @@ class ChatProvider extends ChangeNotifier {
           "Authorization": "Bearer ${Constant.token}",
         },
         body: data);
-    print(Constant.token);
-    print(myUrl.toString());
-    print("sendMessage: " + data.toString());
-    print("sendMessage: " + response.body.toString());
     String responseBody = response.body;
     var responseJSON = json.decode(responseBody);
     if (responseJSON['success'].toString().trim().contains("true")) {
