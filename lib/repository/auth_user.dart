@@ -27,7 +27,8 @@ import '../models/Constant.dart';
 import '../models/basic_response.dart';
 import '../models/sliderModel.dart';
 import '../pages/root_pages.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 const String baseUrl = "https://dev.gamestationapp.com/api/";
 
 class UserAuth extends ChangeNotifier {
@@ -165,12 +166,20 @@ class UserAuth extends ChangeNotifier {
 
   Future signInWithGoogle(String kindRegister, BuildContext context) async {
     try {
-      print('start***********************************************');
-       // final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      print('start*****************545******************************');
+      // GoogleSignIn _googleSignIn = GoogleSignIn();
+      // try {
+      //   await _googleSignIn.signIn();
+      // } catch (error) {
+      //   // Handle sign-in errors
+      //   print("Error during sign-in: $error");
+      // }
+      // final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       //
       final GoogleSignInAccount? googleUser = await GoogleSignIn(clientId: '684599862690-5dpfpe7j1mge9jcend1f68rqjink37rl.apps.googleusercontent.com', scopes: <String>['email']).signIn();
-      // print("get google user ${googleUser!.email}");
-      // await loginUserSocial(password: "gmail", email: googleUser.email.toString(), context: context);
+        print("get google user ${googleUser!.email}");
+       await loginUserSocial(password: "gmail", email: googleUser!.email.toString(), context: context);
 
       print('nice***********************************************');
 

@@ -164,16 +164,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                        onTap: () async {
-                          await userAuth.signInWithFacebook("kindRegister", context);
-                        },
-                        child: Container(
-                          height: width * 0.1 + 20,
-                          width: width * 0.1 + 20,
-                          decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/f.png"), fit: BoxFit.contain)),
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () async {
+                      //     await userAuth.signInWithFacebook("kindRegister", context);
+                      //   },
+                      //   child: Container(
+                      //     height: width * 0.1 + 20,
+                      //     width: width * 0.1 + 20,
+                      //     decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/f.png"), fit: BoxFit.contain)),
+                      //   ),
+                      // ),
                       GestureDetector(
                         onTap: () async {
                           await userAuth.signInWithGoogle("kindRegister", context);

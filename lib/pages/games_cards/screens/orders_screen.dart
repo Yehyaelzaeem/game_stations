@@ -308,7 +308,8 @@ class _OrderStatusState extends State<OrderStatus> {
           showToast("${res.data['message']}");
         }
       } else {
-        showToast("Something went wrong \n please try again later");
+         showToast("${res.statusMessage}");
+        // showToast("Something went wrong \n please try again later");
       }
     } catch (e) {
       print('----> error $e');

@@ -44,7 +44,6 @@ void main() async {
   runApp(DevicePreview(
       enabled: false,
       builder:(BuildContext context)=>LocalizedApp(delegate, MyApp())));
-
   Eraser.clearAllAppNotifications();
 }
 

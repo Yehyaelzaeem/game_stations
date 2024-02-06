@@ -38,47 +38,6 @@ class _ChatListPageState extends State<ChatListPage> {
                 children: [
                   SizedBox(height: height*0.05,),
                   globalHeader(context, translate("profile.chat_list")),
-                  // SizedBox(height: height*0.03,),
-                  // Card(
-                  //     color: colorWhite,
-                  //     margin: EdgeInsets.symmetric(horizontal: width*0.1),
-                  //     shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(20),
-                  //       side: BorderSide(color: appColor,width: 1)
-                  //     ),
-                  //     child:Container(
-                  //       width: width ,
-                  //       alignment: Alignment.center,
-                  //       padding: EdgeInsets.only(right: 5,),
-                  //       child: TextField(
-                  //         autocorrect: true,
-                  //         controller: _searchEditingController,
-                  //         decoration: InputDecoration(
-                  //           hintText: translate("home.search"),
-                  //           counterStyle: GoogleFonts.cairo(
-                  //               fontWeight: FontWeight.bold
-                  //           ),
-                  //           prefixIcon: Icon(Icons.search_rounded,
-                  //             color: Colors.grey,size: width*0.06,),
-                  //           hintStyle: TextStyle(color: Colors.black45),
-                  //           filled: true,
-                  //           fillColor: colorWhite,
-                  //           contentPadding: EdgeInsets.only(top: 0),
-                  //           enabledBorder: OutlineInputBorder(
-                  //             borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                  //             borderSide: BorderSide(color: colorWhite, width: 2),
-                  //           ),
-                  //           focusedBorder: OutlineInputBorder(
-                  //             borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  //             borderSide: BorderSide(color: colorWhite, width: 2),
-                  //           ),
-                  //         ),
-                  //         onSubmitted: (_){
-                  //
-                  //         },
-                  //       ),
-                  //     ),
-                  // ),
                   SizedBox(height: height*0.02,),
                   Constant.token!=null&&Constant.token.toString()!="null"
                       &&Constant.token.toString()!=""?
@@ -91,7 +50,16 @@ class _ChatListPageState extends State<ChatListPage> {
                       builder: (context,AsyncSnapshot<List<ChatModel>> snapshot) {
                         if (snapshot.data == null) {
                           return Center(child: CircularProgressIndicator(backgroundColor: appColor,));
-                        } else {
+                        }else if(snapshot.data!.length==0){
+                         return Center(
+                              child: Text(
+                                translate(
+                                  "chat.no_chats",
+                                ),
+                                style: TextStyle(color: appColor),
+                              ));
+                        }
+                        else {
                           return ListView.separated(
                               physics: BouncingScrollPhysics(),
                               itemBuilder: (context, index) {

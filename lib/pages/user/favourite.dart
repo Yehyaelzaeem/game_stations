@@ -34,8 +34,7 @@ class _FavouritePageState extends State<FavouritePage> {
     return Scaffold(
       backgroundColor: backGround,
       body:
-      Constant.token != null && Constant.token.toString() != "null" && Constant.token.toString() != ""
-          ?
+      Constant.token != null && Constant.token.toString() != "null" && Constant.token.toString() != "" ?
       Container(
         height: height * 0.7 - 30,
         width: width,
@@ -116,6 +115,8 @@ class _FavouritePageState extends State<FavouritePage> {
                                                     child: Text(
                                                       "${snapshot.data![index].productName}",
                                                       style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.black54, fontSize: width * 0.04),
+                                                     maxLines: 2,
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ),
                                                   Expanded(
@@ -125,6 +126,8 @@ class _FavouritePageState extends State<FavouritePage> {
                                                         fontWeight: FontWeight.bold,
                                                         color: appColor,
                                                       ),
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                   )
                                                 ],
@@ -144,6 +147,8 @@ class _FavouritePageState extends State<FavouritePage> {
                                                           style: GoogleFonts.cairo(
                                                             color: Colors.grey,
                                                           ),
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow.ellipsis,
                                                         )
                                                       ],
                                                     ),
@@ -162,6 +167,8 @@ class _FavouritePageState extends State<FavouritePage> {
                                                           style: GoogleFonts.cairo(
                                                             color: Colors.grey,
                                                           ),
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow.ellipsis,
                                                         ),
                                                       ],
                                                     ),

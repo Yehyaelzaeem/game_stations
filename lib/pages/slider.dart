@@ -116,7 +116,7 @@ class _SliderPageState extends State<SliderPage> {
                  done: Done(
                    child: Text('DONE',
                      style: GoogleFonts.cairo(
-                         fontWeight: FontWeight.w700, color: colorWhite, fontSize: 20),
+                         fontWeight: FontWeight.bold, color: colorWhite, fontSize: 20),
                    ),
                    home: ChooseCountryPage(),
                  ),
@@ -142,7 +142,7 @@ class _SliderPageState extends State<SliderPage> {
                        // });
                      },
                      child: Text('SKIP', style: GoogleFonts.cairo(
-                         fontWeight: FontWeight.bold, color: colorWhite, fontSize: 20),
+                         fontWeight: FontWeight.bold, color: colorWhite, fontSize: 21),
                      ),
                    ))
              ],

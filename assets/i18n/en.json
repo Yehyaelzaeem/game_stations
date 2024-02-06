@@ -223,6 +223,7 @@
 		"title": "All chats",
 		"type_message": "Type Message..",
 		"status": "Status",
+		"no_chats": "There are no conversations currently",
 		"all_status": "All Status",
 		"chat": "chat"
 	},

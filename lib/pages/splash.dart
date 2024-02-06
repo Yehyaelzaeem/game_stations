@@ -36,6 +36,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       // when animation completes, put your code here
     });
   }
+  @override
+  dispose() {
+    _animationController!.dispose(); // you need this
+    super.dispose();
+  }
 
   final splashDelay = 2550;
   _loadWidget() async {

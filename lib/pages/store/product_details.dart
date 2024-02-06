@@ -176,6 +176,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       SizedBox(
                         height: height * 0.02,
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -360,6 +361,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       SizedBox(
                         height: height * 0.02,
                       ),
+
                       Text(
                         translate("store.product_details"),
                         style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: appColor, fontSize: width * 0.05),
@@ -498,11 +500,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              reportItem(
-                                height: height,
-                                width: width,
-                                userProfile: userProfile,
-                              );
+                              if (Constant.token == null || Constant.token.toString() == "null" || Constant.token.toString() == "") {
+                                SmallWidgets.shouldBeRegister( context);
+                              }else{
+                                reportItem(
+                                  height: height,
+                                  width: width,
+                                  userProfile: userProfile,
+                                );
+                              }
+
                             },
                             child: Row(
                               children: [
@@ -518,11 +525,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              blockUser(
-                                height: height,
-                                width: width,
-                                userProfile: userProfile,
-                              );
+                              if (Constant.token == null || Constant.token.toString() == "null" || Constant.token.toString() == "") {
+                                SmallWidgets.shouldBeRegister( context);
+                              }else{
+                                blockUser(
+                                  height: height,
+                                  width: width,
+                                  userProfile: userProfile,
+                                );
+                              }
+
                             },
                             child: Row(
                               children: [
@@ -539,11 +551,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
                           GestureDetector(
                             onTap: () {
-                              hideAd(
-                                height: height,
-                                width: width,
-                                userProfile: userProfile,
-                              );
+                              if (Constant.token == null || Constant.token.toString() == "null" || Constant.token.toString() == "") {
+                                SmallWidgets.shouldBeRegister(context);
+                              }else{
+                                hideAd(
+                                  height: height,
+                                  width: width,
+                                  userProfile: userProfile,
+                                );
+                              }
+
                             },
                             child: Row(
                               children: [

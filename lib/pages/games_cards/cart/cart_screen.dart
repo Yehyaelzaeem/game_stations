@@ -6,6 +6,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../../../elements/small_Widgets.dart';
 import '../../../elements/widget_store_header.dart';
 import '../../../helper/showtoast.dart';
 import '../../../models/Constant.dart';
@@ -35,7 +36,6 @@ class CartScreen extends StatelessWidget {
 
             globalHeader(context, translate("store.cart")),
             SizedBox(height: 8),
-
             ...cartProvider.products.map((e) {
               return CardItem(e);
             }).toList(),
@@ -125,92 +125,97 @@ class _CompletePaymentButtonState extends State<CompletePaymentButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-
-        CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
-     try{
-        if (cartProvider.products.isEmpty) return;
-        if (Constant.token == null || Constant.token!.isEmpty) {
-          Fluttertoast.showToast(
-            msg: translate("toast.login"),
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: appColor,
-            textColor: colorWhite,
-            fontSize: 16.0,
-          );
-          return;
+        if (Constant.token == null || Constant.token.toString() == "null" || Constant.token.toString() == "") {
+          SmallWidgets.shouldBeRegister( context);
         }
-        if (loading) return;
-        loading = true;
-        setState(() {});
-        String url = "";
-          Map<String, dynamic> params = {};
-          for (int i = 0; i < cartProvider.products.length; i++) {
-            if (cartProvider.products[i].count! > 0) {
-              params['product[$i][id]'] = '${cartProvider.products[i].id.toString()}';
-              params['product[$i][qty]'] = '${cartProvider.products[i].count.toString()}';
+        else{
+          CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+          try{
+            if (cartProvider.products.isEmpty) return;
+            if (Constant.token == null || Constant.token!.isEmpty) {
+              Fluttertoast.showToast(
+                msg: translate("toast.login"),
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: appColor,
+                textColor: colorWhite,
+                fontSize: 16.0,
+              );
+              return;
             }
-          }
-          params.forEach((key, value) {
-            print("------> key->$key: value->$value");
-          });
-        var headers = {
-          'x-api-key': 'mwDA9w',
-          'Content-Language': 'ar',
-          'Content-Country': '1',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${Constant.token}'
-        };
-        var data = FormData.fromMap(params);
-        var dio = Dio();
-        var response = await dio.request(
-          'http://dev.gamestationapp.com/api/checkout',
-          options: Options(
-            method: 'POST',
-            headers: headers,
-          ),
-          data: data,
-        );
-        if (response.statusCode == 200) {
-          showToast('Success');
-          print(json.encode(response.data));
-        }
-        else {
-          showToast(response.statusMessage.toString());
-          print(response.statusMessage);
-        }
-           url = response.data['payment_url'];
-          print('------>response  ${response.data}');
-          print('------>url  $url');
-          if (url.isNotEmpty&&url!='')
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => InAppWebViewExampleScreen(url: url),
+            if (loading) return;
+            loading = true;
+            setState(() {});
+            String url = "";
+            Map<String, dynamic> params = {};
+            for (int i = 0; i < cartProvider.products.length; i++) {
+              if (cartProvider.products[i].count! > 0) {
+                params['product[$i][id]'] = '${cartProvider.products[i].id.toString()}';
+                params['product[$i][qty]'] = '${cartProvider.products[i].count.toString()}';
+              }
+            }
+            params.forEach((key, value) {
+              print("------> key->$key: value->$value");
+            });
+            var headers = {
+              'x-api-key': 'mwDA9w',
+              'Content-Language': 'ar',
+              'Content-Country': '1',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ${Constant.token}'
+            };
+            var data = FormData.fromMap(params);
+            var dio = Dio();
+            var response = await dio.request(
+              'http://dev.gamestationapp.com/api/checkout',
+              options: Options(
+                method: 'POST',
+                headers: headers,
               ),
+              data: data,
             );
+            if (response.statusCode == 200) {
+              showToast('Success');
+              print(json.encode(response.data));
+            }
+            else {
+              showToast(response.statusMessage.toString());
+              print(response.statusMessage);
+            }
+            url = response.data['payment_url'];
+            print('------>response  ${response.data}');
+            print('------>url  $url');
+            if (url.isNotEmpty&&url!='')
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => InAppWebViewExampleScreen(url: url),
+                ),
+              );
 
-          // showToast('${response.data['message']}');
+            // showToast('${response.data['message']}');
 
-          // Fluttertoast.showToast(
-          //   msg:"Successfully created" ,
-          //   toastLength: Toast.LENGTH_LONG,
-          //   gravity: ToastGravity.TOP,
-          //   backgroundColor: Colors.greenAccent,
-          //   textColor: colorWhite,
-          //   fontSize: 18.0,
-          // );
-        } on DioError catch (e) {
+            // Fluttertoast.showToast(
+            //   msg:"Successfully created" ,
+            //   toastLength: Toast.LENGTH_LONG,
+            //   gravity: ToastGravity.TOP,
+            //   backgroundColor: Colors.greenAccent,
+            //   textColor: colorWhite,
+            //   fontSize: 18.0,
+            // );
+          } on DioError catch (e) {
 
-          if (e.response!.data['message'] != null){
-            print('errrrrrorr : ${e.response!.data['message']}');
-            showToast('${e.response!.data['message']}');
+            if (e.response!.data['message'] != null){
+              print('errrrrrorr : ${e.response!.data['message']}');
+              showToast('${e.response!.data['message']}');
+            }
+            else
+              showToast("Something went wrong please try again later");
           }
-          else
-            showToast("Something went wrong please try again later");
+
+          loading = false;
+          setState(() {});
         }
 
-        loading = false;
-        setState(() {});
       },
       child: Center(
         child: Container(

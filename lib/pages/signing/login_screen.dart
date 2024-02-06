@@ -152,34 +152,45 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: _size.height * 0.04,
                   ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    if (!Platform.isIOS)
-                      GestureDetector(
-                        onTap: () async {
-                          await userAuth.signInWithFacebook("kindRegister", context);
-                        },
-                        child: Container(
-                          height: width * 0.1 + 20,
-                          width: width * 0.1 + 20,
-                          decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/f.png"), fit: BoxFit.contain)),
-                        ),
-                      ),
-                    if (!Platform.isIOS)
-                      GestureDetector(
-                        onTap: () async {
-                          await userAuth.signInWithGoogle("kindRegister", context);
-                        },
-                        child: Container(
-                          height: width * 0.1 + 20,
-                          width: width * 0.1 + 20,
-                          decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/gmail.png"), fit: BoxFit.cover)),
-                        ),
-                      ),
-                  ],
-                ),
+                if (!Platform.isIOS)
+                  GestureDetector(
+                    onTap: () async {
+                      await userAuth.signInWithGoogle("kindRegister", context);
+                    },
+                    child: Container(
+                      height: width * 0.1 + 20,
+                      width: width * 0.1 + 20,
+                      decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/gmail.png"), fit: BoxFit.cover)),
+                    ),
+                  ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: [
+                //     // if (!Platform.isIOS)
+                //     //   GestureDetector(
+                //     //     onTap: () async {
+                //     //       await userAuth.signInWithFacebook("kindRegister", context);
+                //     //     },
+                //     //     child: Container(
+                //     //       height: width * 0.1 + 20,
+                //     //       width: width * 0.1 + 20,
+                //     //       decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/f.png"), fit: BoxFit.contain)),
+                //     //     ),
+                //     //   ),
+                //     if (!Platform.isIOS)
+                //       GestureDetector(
+                //         onTap: () async {
+                //           await userAuth.signInWithGoogle("kindRegister", context);
+                //         },
+                //         child: Container(
+                //           height: width * 0.1 + 20,
+                //           width: width * 0.1 + 20,
+                //           decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/gmail.png"), fit: BoxFit.cover)),
+                //         ),
+                //       ),
+                //   ],
+                // ),
                 SizedBox(
                   height: _size.height * 0.03,
                 ),

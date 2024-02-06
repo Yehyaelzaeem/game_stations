@@ -9,7 +9,7 @@ class GameCardModel with ChangeNotifier {
   String? sku;
   String? pinValue;
   String? snValue;
-  int? count;
+  int? count ;
 
   GameCardModel({
     this.id,
